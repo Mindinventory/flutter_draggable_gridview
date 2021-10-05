@@ -1,5 +1,6 @@
 part of draggable_grid_view;
 
+/// [EmptyItem] will use when drag target when the widget is being dragged.
 class EmptyItem extends StatelessWidget {
   const EmptyItem({Key? key}) : super(key: key);
 

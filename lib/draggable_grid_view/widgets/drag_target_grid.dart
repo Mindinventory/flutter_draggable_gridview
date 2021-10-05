@@ -5,7 +5,6 @@ class DragTargetGrid extends StatefulWidget {
   final VoidCallback voidCallback;
   final Widget? feedback;
   final Widget? childWhenDragging;
-  // final Widget? placeHolder;
   final PlaceHolderWidget? placeHolder;
 
   const DragTargetGrid({
@@ -79,7 +78,6 @@ class _DragTargetGridState extends State<DragTargetGrid> {
   void checkIndexesAreSame(DragTargetDetails details, int index) {
     if (draggedIndex != -1 && index != lastIndex) {
       list.removeWhere((element) {
-        // return (widget.placeHolder!=null) ? element==widget.placeHolder : element is EmptyItem;
         return (widget.placeHolder!=null) ? element is PlaceHolderWidget : element is EmptyItem;
       });
       lastIndex = index;
