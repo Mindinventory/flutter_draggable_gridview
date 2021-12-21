@@ -3,41 +3,47 @@ library draggable_grid_view;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-part 'widgets/drag_target_grid.dart';
-part 'widgets/long_press_draggable_grid.dart';
-part 'widgets/press_draggable_grid.dart';
 part 'abstracts/drag_child_when_dragging.dart';
+
+part 'abstracts/drag_completion.dart';
+
 part 'abstracts/drag_feedback.dart';
+
 part 'abstracts/drag_place_holder.dart';
+
+part 'common/global_variables.dart';
+
+part 'widgets/drag_target_grid.dart';
+
 part 'widgets/empty_item.dart';
+
+part 'widgets/long_press_draggable_grid.dart';
+
 part 'widgets/placeholder_widget.dart';
 
+part 'widgets/press_draggable_grid.dart';
 
-var dragStarted = false;
-var dragEnded = true;
-late List<Widget> orgList;
-late List<Widget> list;
-Widget? _draggedChild;
-int draggedIndex = -1;
-int lastIndex = -1;
-bool draggedIndexRemoved = false;
-/// [isOnlyLongPress] is Accepts 'true' and 'false'
-/// If, it is true then only draggable works with long press.
-/// and if it is false then it works with simple press.
-bool isOnlyLongPress = true;
+part 'widgets/undraggable_widget.dart';
 
 class DraggableGridViewBuilder extends StatefulWidget {
-
   // [listOfWidgets] will show the widgets in Gridview.builder.
   final List<Widget> listOfWidgets;
+
   /// [isOnlyLongPress] is Accepts 'true' and 'false'
   final bool isOnlyLongPress;
+
   /// [dragFeedback] you can set this to display the widget when the widget is being dragged.
   final DragFeedback? dragFeedback;
+
   /// [dragChildWhenDragging] you can set this to display the widget at dragged widget original place when the widget is being dragged.
   final DragChildWhenDragging? dragChildWhenDragging;
+
   /// [dragPlaceHolder] you can set this to display the widget at the drag target when the widget is being dragged.
   final DragPlaceHolder? dragPlaceHolder;
+
+  /// [dragCompletion] you have to set this callback to get the updated list.
+  final DragCompletion dragCompletion;
+
   /// all the below arguments for Gridview.builder.
   final Axis scrollDirection;
   final bool reverse;
@@ -61,6 +67,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
     Key? key,
     required this.gridDelegate,
     required this.listOfWidgets,
+    required this.dragCompletion,
     this.isOnlyLongPress = true,
     this.dragFeedback,
     this.dragChildWhenDragging,
@@ -94,11 +101,14 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
   @override
   void initState() {
     super.initState();
+    assert(widget.listOfWidgets.isNotEmpty);
+
     /// [list] will update when the widget is beign dragged.
-    list = [...widget.listOfWidgets];
+    _list = [...widget.listOfWidgets];
+
     /// [orgList] will set when the drag completes.
-    orgList = [...widget.listOfWidgets];
-    isOnlyLongPress = widget.isOnlyLongPress;
+    _orgList = [...widget.listOfWidgets];
+    _isOnlyLongPress = widget.isOnlyLongPress;
   }
 
   @override
@@ -120,18 +130,23 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
       restorationId: widget.restorationId,
       clipBehavior: widget.clipBehavior,
       gridDelegate: widget.gridDelegate,
-      itemBuilder: (context, index) {
+      itemBuilder: (_, index) {
+        if (_list[index] is UndraggableWidget) {
+          return _list[index];
+        }
         return DragTargetGrid(
           index: index,
           voidCallback: () {
             setState(() {});
           },
-          feedback: widget.dragFeedback?.feedback(index),
-          childWhenDragging: widget.dragChildWhenDragging?.dragChildWhenDragging(index),
-          placeHolder: widget.dragPlaceHolder?.placeHolder(index),
+          feedback: widget.dragFeedback?.feedback(_orgList, index),
+          childWhenDragging: widget.dragChildWhenDragging
+              ?.dragChildWhenDragging(_orgList, index),
+          placeHolder: widget.dragPlaceHolder?.placeHolder(_orgList, index),
+          dragCompletion: widget.dragCompletion,
         );
       },
-      itemCount: list.length,
+      itemCount: _list.length,
     );
   }
 }

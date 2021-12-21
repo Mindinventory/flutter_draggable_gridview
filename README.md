@@ -1,8 +1,11 @@
 # flutter_draggable_gridview
 
-
-<a href="https://pub.dev/packages/image_cropping"><img src="https://img.shields.io/pub/v/image_cropping.svg?label=image_cropping" alt="image_cropping version"></a>
-<a href="https://github.com/Mindinventory/image_cropping"><img src="https://img.shields.io/github/stars/Mindinventory/image_cropping?style=social" alt="MIT License"></a>
+<a href="https://pub.dev/packages/image_cropping">
+<img src="https://img.shields.io/pub/v/flutter_draggable_gridview?label=flutter_draggable_gridview" alt="flutter_draggable_gridview version">
+</a>
+<a href="https://github.com/Mindinventory/flutter_draggable_gridview/stargazers">
+<img src="https://img.shields.io/github/stars/Mindinventory/flutter_draggable_gridview?style=social" alt="flutter_draggable_gridview Git Stars">
+</a>
 <a href="https://developer.android.com" style="pointer-events: stroke;" target="_blank">
 <img src="https://img.shields.io/badge/platform-android-blue">
 </a>
@@ -23,88 +26,62 @@
 </a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="MIT License"></a>
 
-This plugin supports cropping and rotating images for multiplatform. It Allow inclusion of background, Rotation of image, changing ratio of selection as per  requirements.
+This package supports drag & drop widgets inside the GridView.builder for multiplatform. It provides all the properties which are available in Gridview.builder and easy to implement with the few lines of code.
 
 
-### Allow inclusion of background.
-![Image Plugin](https://github.com/Mindinventory/image_cropping/blob/master/assets/image_plugin_1.gif)
-
-### Rotation of image.
-![Image Plugin](https://github.com/Mindinventory/image_cropping/blob/master/assets/image_plugin_2.gif)
-
-### Change ratio of selection.
-![Image Plugin](https://github.com/Mindinventory/image_cropping/blob/master/assets/image_plugin_3.gif)
+### Draggable GridView.
+![Draggable GridView](https://github.com/Mindinventory/flutter_draggable_gridview/blob/main/assets/draggable_gridview.gif)
 
 
 ## Usage
 
 ### Example
-    ImageCropper.cropImage(
-      context,
-      imageBytes!,
-      () {
-        showLoader();
-      },
-      () {
-        hideLoader();
-      },
-      (data) {
-        setState(() {
-          imageBytes = data;
-        });
-      },
-      selectedImageRatio: ImageRatio.RATIO_1_1,
-      visibleOtherAspectRatios: true,
-      squareBorderWidth: 2,
-      squareCircleColor: Colors.black,
-      defaultTextColor: Colors.orange,
-      selectedTextColor: Colors.black,
-      colorForWhiteSpace: Colors.grey,
-    );
+    DraggableGridViewBuilder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 3),
+        ),
+        listOfWidgets: listOfWidgets,
+        dragCompletion: this,
+        dragFeedback: this,
+        dragPlaceHolder: this,
+        isOnlyLongPress: false,
+      );
 
 ### Required parameters
 
-##### BuildContext:
-context is use to push new screen for image cropping.
+##### gridDelegate:
+A delegate that controls the layout of the children within the GridView.
 
-##### _imageBytes:
-image bytes is use to draw image in device and if image not fits in device screen then we manage background color(if you have passed colorForWhiteSpace or else White background) in image cropping screen.
+##### listOfWidgets:
+This property contains list of widgets and it is use to show the widget inside the GridView.builder to provide the drag & drop functionality.
 
-##### _onImageStartLoading:
-this is a callback. you have to override and show dialog or etc when image cropping is in loading state.
+##### dragCompletion:
+This property contains DragCompletion implementation. You have to override and store updated list (if needed).
 
-##### _onImageEndLoading:
-this is a callback. you have to override and hide dialog or etc when image cropping is ready to show result in cropping screen.
 
-##### _onImageDoneListener:
-this is a callback. you have to override and you will get Uint8List as result.
+### Optional parameters
 
-## Optional parameters
+##### isOnlyLongPress:
+This property contains ```bool``` value. If this property is ```false``` then it works with simple press draggable or else it works with long press. default value is 'true'. 
 
-##### ImageRatio:
-this property contains ImageRatio value. You can set the initialized a  spect ratio when starting the cropper by passing a value of ImageRatio. default value is `ImageRatio.FREE`
+##### dragFeedback:
+This property contains DragFeedback implementation. If this property overrides then you have to return a Widget and we will use this widget in feedback. Learn more about feedback from [Draggable](https://api.flutter.dev/flutter/widgets/Draggable-class.html#:~:text=Draggable%20class%20Null%20safety,user's%20finger%20across%20the%20screen) class. 
 
-##### visibleOtherAspectRatios:
-this property contains boolean value. If this properties is true then it shows all other aspect ratios in cropping screen. default value is `true`.
+##### dragPlaceHolder:
+This property contains DragPlaceHolder implementation. If this property overrides then you have to return a PlaceHolderWidget and we will use this widget in place holder. 
 
-##### squareBorderWidth:
-this property contains double value. You can change square border width by passing this value.
+##### dragChildWhenDragging:
+This property contains DragChildWhenDragging implementation. If this property overrides then you have to return a Widget and we will display this widget instead of child when drags are under way. Learn more about childWhenDragging from [Draggable](https://api.flutter.dev/flutter/widgets/Draggable-class.html#:~:text=Draggable%20class%20Null%20safety,user's%20finger%20across%20the%20screen) class.
 
-##### squareCircleColor:
-this property contains Color value. You can change square circle color by passing this value.
 
-#####  defaultTextColor:
-this property contains Color value. By passing this property you can set aspect ratios color which are unselected.
-
-##### selectedTextColor:
-this property contains Color value. By passing this property you can set aspect ratios color which is selected.
-
-##### colorForWhiteSpace:
-this property contains Color value. By passing this property you can set background color, if screen contains blank space.
+### Last But Not Least :heart_eyes: 
+#### You can use all the ```GridView.builder``` properties with ```DraggableGridViewBuilder``` class.
 
 
 ## Note:
-The result returns in Uint8List. so it can be lost later, you are responsible for storing it somewhere permanent (if needed).
+The result returns in List. so it can be lost later, you are responsible for storing it somewhere permanent (if needed).
 
 ## Guideline for contributors
 Contribution towards our repository is always welcome, we request contributors to create a pull request to the develop branch only.
@@ -118,7 +95,7 @@ It would be great for us if the reporter can share the below things to understan
 - Screenshot/video with steps to reproduce the issue
 
 # LICENSE!
-Flutter Draggable GridView is [MIT-licensed](https://github.com/Mindinventory/image_cropping/blob/master/LICENSE "MIT-licensed").
+Flutter Draggable GridView is [MIT-licensed](https://github.com/Mindinventory/flutter_draggable_gridview/blob/main/LICENSE "MIT-licensed").
 
 # Let us know!
 We’d be really happy if you send us links to your projects where you use our component. Just send an email to sales@mindinventory.com And do let us know if you have any questions or suggestion regarding our work.

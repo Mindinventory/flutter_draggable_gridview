@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_draggable_gridview/draggable_grid_view/flutter_draggable_gridview.dart';
-
+import 'package:flutter_draggable_gridview/flutter_draggable_gridview.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,11 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Drag & Drop In Grid View',
+      title: 'Draggable GridView',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
-      home: MyHomePage(title: 'Drag & Drop In Grid View'),
+      home: MyHomePage(
+        title: 'Draggable GridView',
+      ),
     );
   }
 }
@@ -29,45 +30,54 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage>
-    with DragFeedback, DragChildWhenDragging, DragPlaceHolder {
+    with DragFeedback, DragPlaceHolder, DragCompletion {
+  static List<String> listOfImages =
+      List.generate(13, (index) => 'assets/${index + 1}.jpeg');
 
-  var list = [
-    Container(
-      color: Colors.black,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.grey,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.red,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.yellow,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.blue,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.black12,
-      height: 200,
-      width: 200,
-    ),
-  ];
+  List<Widget> listOfWidgets = [];
+
+  @override
+  void initState() {
+    listOfWidgets.addAll(
+      List.generate(
+        listOfImages.length,
+        (index) => Container(
+          padding: EdgeInsets.only(
+            left: 4.0,
+            right: 4.0,
+            top: 8.0,
+          ),
+          child: Image.asset(
+            listOfImages[index],
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+    listOfWidgets.insert(
+      5,
+      UndraggableWidget(
+        child: Container(
+          padding: EdgeInsets.only(
+            left: 4.0,
+            right: 4.0,
+            top: 8.0,
+          ),
+          child: Image.asset(
+            'assets/1.jpeg',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           widget.title,
         ),
@@ -75,33 +85,43 @@ class MyHomePageState extends State<MyHomePage>
       body: DraggableGridViewBuilder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 3),
         ),
-        listOfWidgets: list,
+        listOfWidgets: listOfWidgets,
+        dragCompletion: this,
         isOnlyLongPress: false,
         dragFeedback: this,
-        dragChildWhenDragging: this,
         dragPlaceHolder: this,
       ),
     );
   }
 
   @override
-  Widget feedback(int index) {
-    return Container(color: list[index].color, width: 250, height: 250,);
+  Widget feedback(List<Widget> list, int index) {
+    // If widget is UndraggableWidget then return as it is.
+    if(list[index] is UndraggableWidget) return list[index];
+
+    // If widget is Draggable then below code will execute.
+    var item = list[index] as Container;
+    return Container(
+      child: item.child,
+      width: 200,
+      height: 150,
+    );
   }
 
   @override
-  Widget dragChildWhenDragging(int index) {
-    return Container(color: Colors.white,);
-  }
-
-  @override
-  PlaceHolderWidget placeHolder(int index) {
+  PlaceHolderWidget placeHolder(List<Widget> list, int index) {
     return PlaceHolderWidget(
       child: Container(
-        color: Colors.black12,
+        color: Colors.white,
       ),
     );
   }
 
+  @override
+  void onDragAccept(List<Widget> list) {
+    // print(list);
+  }
 }
