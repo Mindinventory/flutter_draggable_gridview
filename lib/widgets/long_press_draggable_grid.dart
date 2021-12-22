@@ -5,7 +5,7 @@ class LongPressDraggableGridView extends StatelessWidget {
   final Widget? feedback;
   final Widget? childWhenDragging;
 
-  const LongPressDraggableGridView({Key? key, required this.index, this.feedback, this.childWhenDragging})
+  const LongPressDraggableGridView({required this.index, this.feedback, this.childWhenDragging, Key? key})
       : super(key: key);
 
   @override
