@@ -1,8 +1,13 @@
 part of draggable_grid_view;
 
 class LongPressDraggableGridView extends StatelessWidget {
+  /// [index] is use to get item from the list.
   final int index;
+
+  /// [feedback] this to display the widget when the widget is being dragged.
   final Widget? feedback;
+
+  /// [DragChildWhenDragging] this to display the widget at dragged widget place when the widget is being dragged.
   final Widget? childWhenDragging;
 
   const LongPressDraggableGridView({required this.index, this.feedback, this.childWhenDragging, Key? key})

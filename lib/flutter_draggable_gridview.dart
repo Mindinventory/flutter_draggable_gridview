@@ -26,9 +26,8 @@ part 'widgets/placeholder_widget.dart';
 
 part 'widgets/press_draggable_grid.dart';
 
-
 class DraggableGridViewBuilder extends StatefulWidget {
-  // [listOfWidgets] will show the widgets in Gridview.builder.
+  /// [children] will show the widgets in Gridview.builder.
   final List<DraggableGridItem> children;
 
   /// [isOnlyLongPress] is Accepts 'true' and 'false'
@@ -37,7 +36,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
   /// [dragFeedback] you can set this to display the widget when the widget is being dragged.
   final DragFeedback? dragFeedback;
 
-  /// [dragChildWhenDragging] you can set this to display the widget at dragged widget original place when the widget is being dragged.
+  /// [dragChildWhenDragging] you can set this to display the widget at dragged widget place when the widget is being dragged.
   final DragChildWhenDragging? dragChildWhenDragging;
 
   /// [dragPlaceHolder] you can set this to display the widget at the drag target when the widget is being dragged.
@@ -133,17 +132,20 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
       clipBehavior: widget.clipBehavior,
       gridDelegate: widget.gridDelegate,
       itemBuilder: (_, index) {
-        return (!_list[index].isDraggable) ? _list[index].child : DragTargetGrid(
-          index: index,
-          voidCallback: () {
-            setState(() {});
-          },
-          feedback: widget.dragFeedback?.feedback(_orgList, index),
-          childWhenDragging: widget.dragChildWhenDragging
-              ?.dragChildWhenDragging(_orgList, index),
-          placeHolder: widget.dragPlaceHolder?.placeHolder(_orgList, index),
-          dragCompletion: widget.dragCompletion,
-        );
+        return (!_list[index].isDraggable)
+            ? _list[index].child
+            : DragTargetGrid(
+                index: index,
+                voidCallback: () {
+                  setState(() {});
+                },
+                feedback: widget.dragFeedback?.feedback(_orgList, index),
+                childWhenDragging: widget.dragChildWhenDragging
+                    ?.dragChildWhenDragging(_orgList, index),
+                placeHolder:
+                    widget.dragPlaceHolder?.placeHolder(_orgList, index),
+                dragCompletion: widget.dragCompletion,
+              );
       },
       itemCount: _list.length,
     );

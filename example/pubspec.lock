@@ -63,12 +63,12 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_draggable_gridview:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter

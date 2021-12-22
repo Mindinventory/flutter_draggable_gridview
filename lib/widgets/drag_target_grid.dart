@@ -23,7 +23,6 @@ class DragTargetGrid extends StatefulWidget {
 }
 
 class _DragTargetGridState extends State<DragTargetGrid> {
-
   bool _draggedIndexRemoved = false;
   int _lastIndex = -1;
   int _draggedIndex = -1;
@@ -32,13 +31,16 @@ class _DragTargetGridState extends State<DragTargetGrid> {
   Widget build(BuildContext context) {
     return DragTarget(
       onAccept: (data) => setState(() {
+        /// When drag is completes and other item index is ready to accept it.
         _onDragComplete(widget.index);
       }),
       onLeave: (details) {},
       onWillAccept: (details) {
+        /// Drag is acceptable in this index else this place.
         return true;
       },
       onMove: (details) {
+        /// Update state when item is moving.
         setState(() {
           _setDragStartedData(details, widget.index);
           _checkIndexesAreDifferent(details, widget.index);
@@ -50,7 +52,7 @@ class _DragTargetGridState extends State<DragTargetGrid> {
         List<dynamic> accepted,
         List<dynamic> rejected,
       ) {
-        /// [isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
+        /// [_isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
         return (_isOnlyLongPress)
             ? LongPressDraggableGridView(
                 index: widget.index,
@@ -75,7 +77,8 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       _dragStarted = false;
       _draggedIndexRemoved = false;
       _draggedIndex = details.data;
-      _draggedGridItem = DraggableGridItem(child: EmptyItem(), isDraggable: true);
+      _draggedGridItem =
+          DraggableGridItem(child: EmptyItem(), isDraggable: true);
       _lastIndex = _draggedIndex;
     }
   }
@@ -86,7 +89,9 @@ class _DragTargetGridState extends State<DragTargetGrid> {
     /// And also check index is not equal to _lastIndex. Means if both will true then skip it. else do some operations.
     if (_draggedIndex != -1 && index != _lastIndex) {
       _list.removeWhere((element) {
-        return (widget.placeHolder != null) ? element.child is PlaceHolderWidget : element.child is EmptyItem;
+        return (widget.placeHolder != null)
+            ? element.child is PlaceHolderWidget
+            : element.child is EmptyItem;
       });
 
       /// store _lastIndex as index.
@@ -99,12 +104,15 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       if (_draggedIndex > _lastIndex) {
         _draggedGridItem = _orgList[_draggedIndex - 1];
       } else {
-        _draggedGridItem = _orgList[(_draggedIndex + 1 >= _list.length) ? _draggedIndex : _draggedIndex + 1];
+        _draggedGridItem = _orgList[(_draggedIndex + 1 >= _list.length)
+            ? _draggedIndex
+            : _draggedIndex + 1];
       }
 
       /// If dragged index and current index both are same then show place holder widget(if user it overridden). else show EmptyItem class.
       if (_draggedIndex == _lastIndex) {
-        _draggedGridItem = DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true);
+        _draggedGridItem = DraggableGridItem(
+            child: widget.placeHolder ?? EmptyItem(), isDraggable: true);
       }
 
       if (!_draggedIndexRemoved) {
@@ -113,7 +121,8 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       }
       _list.insert(
         _lastIndex,
-        DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true),
+        DraggableGridItem(
+            child: widget.placeHolder ?? EmptyItem(), isDraggable: true),
       );
     }
   }
