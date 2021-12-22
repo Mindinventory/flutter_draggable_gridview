@@ -23,22 +23,25 @@ class DragTargetGrid extends StatefulWidget {
 }
 
 class _DragTargetGridState extends State<DragTargetGrid> {
+
+  bool _draggedIndexRemoved = false;
+  int _lastIndex = -1;
+  int _draggedIndex = -1;
+
   @override
   Widget build(BuildContext context) {
     return DragTarget(
       onAccept: (data) => setState(() {
-        onDragComplete(widget.index);
+        _onDragComplete(widget.index);
       }),
-      onLeave: (details) {
-        // print('onLeave: $details');
-      },
+      onLeave: (details) {},
       onWillAccept: (details) {
         return true;
       },
       onMove: (details) {
         setState(() {
-          setDragStartedData(details, widget.index);
-          checkIndexesAreDifferent(details, widget.index);
+          _setDragStartedData(details, widget.index);
+          _checkIndexesAreDifferent(details, widget.index);
           widget.voidCallback();
         });
       },
@@ -59,14 +62,15 @@ class _DragTargetGridState extends State<DragTargetGrid> {
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () {
-                  onDragComplete(_lastIndex);
+                  _onDragComplete(_lastIndex);
                 },
               );
       },
     );
   }
 
-  void setDragStartedData(DragTargetDetails details, int index) {
+  /// Set drag data when dragging start.
+  void _setDragStartedData(DragTargetDetails details, int index) {
     if (_dragStarted) {
       _dragStarted = false;
       _draggedIndexRemoved = false;
@@ -76,15 +80,13 @@ class _DragTargetGridState extends State<DragTargetGrid> {
     }
   }
 
-  void checkIndexesAreDifferent(DragTargetDetails details, int index) {
+  /// When [_draggedIndex] and [_lastIndex] both are different that means item is dragged and travelling to other place.
+  void _checkIndexesAreDifferent(DragTargetDetails details, int index) {
     /// Here, check [_draggedIndex] is != -1.
     /// And also check index is not equal to _lastIndex. Means if both will true then skip it. else do some operations.
-    ///
     if (_draggedIndex != -1 && index != _lastIndex) {
       _list.removeWhere((element) {
-        return (widget.placeHolder != null)
-            ? element.child is PlaceHolderWidget
-            : element.child is EmptyItem;
+        return (widget.placeHolder != null) ? element.child is PlaceHolderWidget : element.child is EmptyItem;
       });
 
       /// store _lastIndex as index.
@@ -97,26 +99,28 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       if (_draggedIndex > _lastIndex) {
         _draggedGridItem = _orgList[_draggedIndex - 1];
       } else {
-        _draggedGridItem = _orgList[(_draggedIndex + 1 >= _list.length)
-            ? _draggedIndex
-            : _draggedIndex + 1];
+        _draggedGridItem = _orgList[(_draggedIndex + 1 >= _list.length) ? _draggedIndex : _draggedIndex + 1];
       }
+
+      /// If dragged index and current index both are same then show place holder widget(if user it overridden). else show EmptyItem class.
       if (_draggedIndex == _lastIndex) {
         _draggedGridItem = DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true);
       }
+
       if (!_draggedIndexRemoved) {
         _draggedIndexRemoved = true;
         _list.removeAt(_draggedIndex);
       }
       _list.insert(
         _lastIndex,
-          DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true),
+        DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true),
       );
     }
   }
 
-  void onDragComplete(int index) {
-    if(_draggedIndex==-1) return;
+  /// This method will execute when dragging is completes or else dragging is cancelled.
+  void _onDragComplete(int index) {
+    if (_draggedIndex == -1) return;
     _list.removeAt(index);
     _list.insert(
       index,

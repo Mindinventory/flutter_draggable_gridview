@@ -2,6 +2,7 @@ library draggable_grid_view;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_draggable_gridview/constants/colors.dart';
 
 part 'abstracts/drag_child_when_dragging.dart';
 
