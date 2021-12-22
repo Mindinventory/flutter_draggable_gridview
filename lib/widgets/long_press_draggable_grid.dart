@@ -4,8 +4,8 @@ class LongPressDraggableGridView extends StatelessWidget {
   final int index;
   final Widget? feedback;
   final Widget? childWhenDragging;
-  const LongPressDraggableGridView(
-      {Key? key, required this.index, this.feedback, this.childWhenDragging})
+
+  const LongPressDraggableGridView({Key? key, required this.index, this.feedback, this.childWhenDragging})
       : super(key: key);
 
   @override
@@ -22,13 +22,9 @@ class LongPressDraggableGridView extends StatelessWidget {
         _dragStarted = false;
       },
       data: index,
-      feedback: feedback ?? _list[index],
-      child: _list[index],
-      childWhenDragging: (childWhenDragging != null)
-          ? childWhenDragging
-          : (_draggedChild != null)
-              ? _draggedChild
-              : _list[index],
+      feedback: feedback ?? _list[index].child,
+      child: _list[index].child,
+      childWhenDragging: childWhenDragging ?? _draggedGridItem?.child ?? _list[index].child,
     );
   }
 }

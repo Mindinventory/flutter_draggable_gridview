@@ -71,7 +71,7 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       _dragStarted = false;
       _draggedIndexRemoved = false;
       _draggedIndex = details.data;
-      _draggedChild = EmptyItem();
+      _draggedGridItem = DraggableGridItem(child: EmptyItem(), isDraggable: true);
       _lastIndex = _draggedIndex;
     }
   }
@@ -83,8 +83,8 @@ class _DragTargetGridState extends State<DragTargetGrid> {
     if (_draggedIndex != -1 && index != _lastIndex) {
       _list.removeWhere((element) {
         return (widget.placeHolder != null)
-            ? element is PlaceHolderWidget
-            : element is EmptyItem;
+            ? element.child is PlaceHolderWidget
+            : element.child is EmptyItem;
       });
 
       /// store _lastIndex as index.
@@ -95,14 +95,14 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       /// For ex:
       /// If _draggedIndex is 6 and _lastIndex = 4 then _draggedChild will be 5.
       if (_draggedIndex > _lastIndex) {
-        _draggedChild = _orgList[_draggedIndex - 1];
+        _draggedGridItem = _orgList[_draggedIndex - 1];
       } else {
-        _draggedChild = _orgList[(_draggedIndex + 1 >= _list.length)
+        _draggedGridItem = _orgList[(_draggedIndex + 1 >= _list.length)
             ? _draggedIndex
             : _draggedIndex + 1];
       }
       if (_draggedIndex == _lastIndex) {
-        _draggedChild = widget.placeHolder ?? EmptyItem();
+        _draggedGridItem = DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true);
       }
       if (!_draggedIndexRemoved) {
         _draggedIndexRemoved = true;
@@ -110,7 +110,7 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       }
       _list.insert(
         _lastIndex,
-        widget.placeHolder ?? EmptyItem(),
+          DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true),
       );
     }
   }
@@ -125,7 +125,7 @@ class _DragTargetGridState extends State<DragTargetGrid> {
     _orgList = [..._list];
     _dragStarted = false;
     _draggedIndex = -1;
-    _draggedChild = null;
+    _draggedGridItem = null;
     widget.voidCallback();
     widget.dragCompletion.onDragAccept(_orgList);
   }

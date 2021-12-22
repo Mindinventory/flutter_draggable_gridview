@@ -2,9 +2,9 @@ part of draggable_grid_view;
 
 var _dragStarted = false;
 var _dragEnded = true;
-late List<Widget> _orgList;
-late List<Widget> _list;
-Widget? _draggedChild;
+late List<DraggableGridItem> _orgList;
+late List<DraggableGridItem> _list;
+DraggableGridItem? _draggedGridItem;
 int _draggedIndex = -1;
 int _lastIndex = -1;
 bool _draggedIndexRemoved = false;

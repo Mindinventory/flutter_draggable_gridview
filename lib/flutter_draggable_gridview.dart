@@ -13,6 +13,8 @@ part 'abstracts/drag_place_holder.dart';
 
 part 'common/global_variables.dart';
 
+part 'models/draggable_gridItem.dart';
+
 part 'widgets/drag_target_grid.dart';
 
 part 'widgets/empty_item.dart';
@@ -23,11 +25,10 @@ part 'widgets/placeholder_widget.dart';
 
 part 'widgets/press_draggable_grid.dart';
 
-part 'widgets/undraggable_widget.dart';
 
 class DraggableGridViewBuilder extends StatefulWidget {
   // [listOfWidgets] will show the widgets in Gridview.builder.
-  final List<Widget> listOfWidgets;
+  final List<DraggableGridItem> children;
 
   /// [isOnlyLongPress] is Accepts 'true' and 'false'
   final bool isOnlyLongPress;
@@ -66,7 +67,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
   const DraggableGridViewBuilder({
     Key? key,
     required this.gridDelegate,
-    required this.listOfWidgets,
+    required this.children,
     required this.dragCompletion,
     this.isOnlyLongPress = true,
     this.dragFeedback,
@@ -101,13 +102,13 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
   @override
   void initState() {
     super.initState();
-    assert(widget.listOfWidgets.isNotEmpty);
+    assert(widget.children.isNotEmpty);
 
     /// [list] will update when the widget is beign dragged.
-    _list = [...widget.listOfWidgets];
+    _list = [...widget.children];
 
     /// [orgList] will set when the drag completes.
-    _orgList = [...widget.listOfWidgets];
+    _orgList = [...widget.children];
     _isOnlyLongPress = widget.isOnlyLongPress;
   }
 
@@ -131,10 +132,7 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
       clipBehavior: widget.clipBehavior,
       gridDelegate: widget.gridDelegate,
       itemBuilder: (_, index) {
-        if (_list[index] is UndraggableWidget) {
-          return _list[index];
-        }
-        return DragTargetGrid(
+        return (!_list[index].isDraggable) ? _list[index].child : DragTargetGrid(
           index: index,
           voidCallback: () {
             setState(() {});
