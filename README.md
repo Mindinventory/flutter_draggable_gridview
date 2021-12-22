@@ -39,14 +39,13 @@ This package supports drag & drop widgets inside the GridView.builder for multip
     DraggableGridViewBuilder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 3),
+          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 3),
         ),
-        listOfWidgets: listOfWidgets,
+        children: _listOfDraggableGridItem,
         dragCompletion: this,
+        isOnlyLongPress: false,
         dragFeedback: this,
         dragPlaceHolder: this,
-        isOnlyLongPress: false,
       );
 
 ### Required parameters
@@ -54,8 +53,8 @@ This package supports drag & drop widgets inside the GridView.builder for multip
 ##### gridDelegate:
 A delegate that controls the layout of the children within the GridView.
 
-##### listOfWidgets:
-This property contains list of widgets and it is use to show the widget inside the GridView.builder to provide the drag & drop functionality.
+##### children:
+This property contains list of [DraggableGridItem] and it is use to show the widget inside the GridView.builder to provide the drag & drop functionality. Also, it contains isDraggable parameter which manages enable/disable the drag & drop functionality. 
 
 ##### dragCompletion:
 This property contains DragCompletion implementation. You have to override and store updated list (if needed).
