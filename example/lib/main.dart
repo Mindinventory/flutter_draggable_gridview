@@ -1,6 +1,9 @@
+import 'package:example/constants/colors.dart';
+import 'package:example/constants/dimens.dart';
+import 'package:example/constants/images.dart';
+import 'package:example/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_draggable_gridview/draggable_grid_view/flutter_draggable_gridview.dart';
-
+import 'package:flutter_draggable_gridview/flutter_draggable_gridview.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,11 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Drag & Drop In Grid View',
+      title: Strings.app_title,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: AppColors.primaryColor,
       ),
-      home: MyHomePage(title: 'Drag & Drop In Grid View'),
+      home: MyHomePage(
+        title: Strings.app_title,
+      ),
     );
   }
 }
@@ -28,46 +33,20 @@ class MyHomePage extends StatefulWidget {
   MyHomePageState createState() => MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage>
-    with DragFeedback, DragChildWhenDragging, DragPlaceHolder {
+class MyHomePageState extends State<MyHomePage> with DragFeedback, DragPlaceHolder, DragCompletion {
+  List<DraggableGridItem> _listOfDraggableGridItem = [];
 
-  var list = [
-    Container(
-      color: Colors.black,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.grey,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.red,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.yellow,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.blue,
-      height: 200,
-      width: 200,
-    ),
-    Container(
-      color: Colors.black12,
-      height: 200,
-      width: 200,
-    ),
-  ];
+  @override
+  void initState() {
+    _generateImageData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           widget.title,
         ),
@@ -75,33 +54,76 @@ class MyHomePageState extends State<MyHomePage>
       body: DraggableGridViewBuilder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
+          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 3),
         ),
-        listOfWidgets: list,
+        children: _listOfDraggableGridItem,
+        dragCompletion: this,
         isOnlyLongPress: false,
         dragFeedback: this,
-        dragChildWhenDragging: this,
         dragPlaceHolder: this,
       ),
     );
   }
 
   @override
-  Widget feedback(int index) {
-    return Container(color: list[index].color, width: 250, height: 250,);
+  Widget feedback(List<DraggableGridItem> list, int index) {
+    return Container(
+      child: list[index].child,
+      width: 200,
+      height: 150,
+    );
   }
 
   @override
-  Widget dragChildWhenDragging(int index) {
-    return Container(color: Colors.white,);
-  }
-
-  @override
-  PlaceHolderWidget placeHolder(int index) {
+  PlaceHolderWidget placeHolder(List<DraggableGridItem> list, int index) {
     return PlaceHolderWidget(
       child: Container(
-        color: Colors.black12,
+        color: Colors.white,
       ),
     );
   }
 
+  @override
+  void onDragAccept(List<DraggableGridItem> list) {
+
+  }
+
+  void _generateImageData() {
+    _listOfDraggableGridItem.addAll(
+      [
+        DraggableGridItem(child: _GridItem(image: Images.asset_1), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_2), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_3), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_4), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_5), isDraggable: false),
+        DraggableGridItem(child: _GridItem(image: Images.asset_6), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_7), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_8), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_9), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_10), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_11), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_12), isDraggable: true),
+        DraggableGridItem(child: _GridItem(image: Images.asset_13), isDraggable: true),
+      ],
+    );
+  }
+}
+
+class _GridItem extends StatelessWidget {
+  const _GridItem({required this.image, Key? key}) : super(key: key);
+  final String image;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: Dimens.padding_small,
+        vertical: Dimens.padding_small,
+      ),
+      child: Image.asset(
+        image,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
 }
