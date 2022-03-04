@@ -1,5 +1,7 @@
 library draggable_grid_view;
 
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_draggable_gridview/constants/colors.dart';
@@ -102,7 +104,7 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
   @override
   void initState() {
     super.initState();
-    assert(widget.children.isNotEmpty);
+    assert(widget.children.isNotEmpty, 'Children must not be empty.');
 
     /// [list] will update when the widget is beign dragged.
     _list = [...widget.children];
@@ -139,7 +141,7 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
                 voidCallback: () {
                   setState(() {});
                 },
-                feedback: widget.dragFeedback?.feedback(_orgList, index),
+                feedback: widget.dragFeedback?.feedback(_list, index),
                 childWhenDragging: widget.dragChildWhenDragging
                     ?.dragChildWhenDragging(_orgList, index),
                 placeHolder:
