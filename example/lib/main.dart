@@ -33,7 +33,8 @@ class MyHomePage extends StatefulWidget {
   MyHomePageState createState() => MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage> with DragFeedback, DragPlaceHolder, DragCompletion {
+class MyHomePageState extends State<MyHomePage>
+    with DragFeedback, DragPlaceHolder, DragCompletion {
   List<DraggableGridItem> _listOfDraggableGridItem = [];
 
   @override
@@ -54,7 +55,8 @@ class MyHomePageState extends State<MyHomePage> with DragFeedback, DragPlaceHold
       body: DraggableGridViewBuilder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 3),
+          childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height / 3),
         ),
         children: _listOfDraggableGridItem,
         dragCompletion: this,
@@ -84,26 +86,37 @@ class MyHomePageState extends State<MyHomePage> with DragFeedback, DragPlaceHold
   }
 
   @override
-  void onDragAccept(List<DraggableGridItem> list) {
-
-  }
+  void onDragAccept(List<DraggableGridItem> list) {}
 
   void _generateImageData() {
     _listOfDraggableGridItem.addAll(
       [
-        DraggableGridItem(child: _GridItem(image: Images.asset_1), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_2), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_3), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_4), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_5), isDraggable: false),
-        DraggableGridItem(child: _GridItem(image: Images.asset_6), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_7), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_8), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_9), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_10), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_11), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_12), isDraggable: true),
-        DraggableGridItem(child: _GridItem(image: Images.asset_13), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_1), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_2), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_3), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_4), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_5), isDraggable: false),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_6), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_7), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_8), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_9), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_10), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_11), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_12), isDraggable: true),
+        DraggableGridItem(
+            child: _GridItem(image: Images.asset_13), isDraggable: true),
       ],
     );
   }

@@ -23,22 +23,24 @@ class DragTargetGrid extends StatefulWidget {
 }
 
 class _DragTargetGridState extends State<DragTargetGrid> {
-
-  bool _draggedIndexRemoved = false;
-  int _lastIndex = -1;
-  int _draggedIndex = -1;
+  static bool _draggedIndexRemoved = false;
+  static int _lastIndex = -1;
+  static int _draggedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
     return DragTarget(
       onAccept: (data) => setState(() {
+        /// When drag is completes and other item index is ready to accept it.
         _onDragComplete(widget.index);
       }),
       onLeave: (details) {},
       onWillAccept: (details) {
+        /// Drag is acceptable in this index else this place.
         return true;
       },
       onMove: (details) {
+        /// Update state when item is moving.
         setState(() {
           _setDragStartedData(details, widget.index);
           _checkIndexesAreDifferent(details, widget.index);
@@ -50,7 +52,7 @@ class _DragTargetGridState extends State<DragTargetGrid> {
         List<dynamic> accepted,
         List<dynamic> rejected,
       ) {
-        /// [isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
+        /// [_isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
         return (_isOnlyLongPress)
             ? LongPressDraggableGridView(
                 index: widget.index,
@@ -129,6 +131,7 @@ class _DragTargetGridState extends State<DragTargetGrid> {
     _orgList = [..._list];
     _dragStarted = false;
     _draggedIndex = -1;
+    _lastIndex = -1;
     _draggedGridItem = null;
     widget.voidCallback();
     widget.dragCompletion.onDragAccept(_orgList);
