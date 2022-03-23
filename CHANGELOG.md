@@ -1,3 +1,7 @@
+## [0.0.4] - 2022-03-23
+
+* Resolved drag issue.
+
 ## [0.0.3] - 2021-12-22
 
 * Code refactored.
