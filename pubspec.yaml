@@ -1,6 +1,6 @@
 name: flutter_draggable_gridview
 description: This package helps you to add drag & drop functionality to exising Gridview.builder.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/Mindinventory/flutter_draggable_gridview
 
 environment:
