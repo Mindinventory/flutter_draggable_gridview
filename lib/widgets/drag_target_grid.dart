@@ -77,7 +77,7 @@ class _DragTargetGridState extends State<DragTargetGrid> {
       _dragStarted = false;
       _draggedIndexRemoved = false;
       _draggedIndex = details.data;
-      _draggedGridItem = DraggableGridItem(child: EmptyItem(), isDraggable: true);
+      _draggedGridItem = DraggableGridItem(child: widget.placeHolder ?? EmptyItem(), isDraggable: true);
       _lastIndex = _draggedIndex;
     }
   }
