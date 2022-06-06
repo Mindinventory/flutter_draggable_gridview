@@ -28,24 +28,24 @@ part 'widgets/placeholder_widget.dart';
 
 part 'widgets/press_draggable_grid.dart';
 
-class DraggableGridViewBuilder extends StatefulWidget {
+class DraggableGridViewBuilder<T> extends StatefulWidget {
   /// [children] will show the widgets in Gridview.builder.
-  final List<DraggableGridItem> children;
+  final List<DraggableGridItem<T>> children;
 
   /// [isOnlyLongPress] is Accepts 'true' and 'false'
   final bool isOnlyLongPress;
 
   /// [dragFeedback] you can set this to display the widget when the widget is being dragged.
-  final DragFeedback? dragFeedback;
+  final DragFeedback<T>? dragFeedback;
 
   /// [dragChildWhenDragging] you can set this to display the widget at dragged widget place when the widget is being dragged.
-  final DragChildWhenDragging? dragChildWhenDragging;
+  final DragChildWhenDragging<T>? dragChildWhenDragging;
 
   /// [dragPlaceHolder] you can set this to display the widget at the drag target when the widget is being dragged.
-  final DragPlaceHolder? dragPlaceHolder;
+  final DragPlaceHolder<T>? dragPlaceHolder;
 
   /// [dragCompletion] you have to set this callback to get the updated list.
-  final DragCompletion dragCompletion;
+  final DragCompletion<T> dragCompletion;
 
   /// all the below arguments for Gridview.builder.
   final Axis scrollDirection;
