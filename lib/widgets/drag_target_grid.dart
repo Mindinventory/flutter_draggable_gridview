@@ -1,12 +1,12 @@
 part of draggable_grid_view;
 
-class DragTargetGrid extends StatefulWidget {
+class DragTargetGrid<T> extends StatefulWidget {
   final int index;
   final VoidCallback voidCallback;
   final Widget? feedback;
   final Widget? childWhenDragging;
   final PlaceHolderWidget? placeHolder;
-  final DragCompletion dragCompletion;
+  final DragCompletion<T> dragCompletion;
 
   const DragTargetGrid({
     Key? key,
