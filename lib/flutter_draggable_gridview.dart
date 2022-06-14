@@ -117,6 +117,7 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
   @override
   void didUpdateWidget(DraggableGridViewBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
+    assert(widget.children.isNotEmpty, 'Children must not be empty.');
 
     _list = [...widget.children];
     _orgList = [...widget.children];
