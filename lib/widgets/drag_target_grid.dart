@@ -130,10 +130,11 @@ class _DragTargetGridState extends State<DragTargetGrid> {
     );
     _orgList = [..._list];
     _dragStarted = false;
+
+    widget.voidCallback();
+    widget.dragCompletion.call(_orgList, _draggedIndex, _lastIndex);
     _draggedIndex = -1;
     _lastIndex = -1;
     _draggedGridItem = null;
-    widget.voidCallback();
-    widget.dragCompletion.onDragAccept(_orgList);
   }
 }

@@ -33,8 +33,7 @@ class MyHomePage extends StatefulWidget {
   MyHomePageState createState() => MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage>
-    with DragFeedback, DragPlaceHolder, DragCompletion {
+class MyHomePageState extends State<MyHomePage>{
   List<DraggableGridItem> _listOfDraggableGridItem = [];
 
   @override
@@ -59,15 +58,14 @@ class MyHomePageState extends State<MyHomePage>
               (MediaQuery.of(context).size.height / 3),
         ),
         children: _listOfDraggableGridItem,
-        dragCompletion: this,
+        dragCompletion: onDragAccept,
         isOnlyLongPress: false,
-        dragFeedback: this,
-        dragPlaceHolder: this,
+        dragFeedback: feedback,
+        dragPlaceHolder: placeHolder,
       ),
     );
   }
 
-  @override
   Widget feedback(List<DraggableGridItem> list, int index) {
     return Container(
       child: list[index].child,
@@ -76,7 +74,6 @@ class MyHomePageState extends State<MyHomePage>
     );
   }
 
-  @override
   PlaceHolderWidget placeHolder(List<DraggableGridItem> list, int index) {
     return PlaceHolderWidget(
       child: Container(
@@ -85,8 +82,9 @@ class MyHomePageState extends State<MyHomePage>
     );
   }
 
-  @override
-  void onDragAccept(List<DraggableGridItem> list) {}
+  void onDragAccept(List<DraggableGridItem> list,int beforeIndex,int afterIndex) {
+    print( 'onDragAccept: $beforeIndex -> $afterIndex');
+  }
 
   void _generateImageData() {
     _listOfDraggableGridItem.addAll(

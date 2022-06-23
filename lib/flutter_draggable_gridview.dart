@@ -1,32 +1,22 @@
 library draggable_grid_view;
 
-import 'dart:developer';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_draggable_gridview/constants/colors.dart';
 
-part 'abstracts/drag_child_when_dragging.dart';
-
-part 'abstracts/drag_completion.dart';
-
-part 'abstracts/drag_feedback.dart';
-
-part 'abstracts/drag_place_holder.dart';
-
 part 'common/global_variables.dart';
-
 part 'models/draggable_gridItem.dart';
-
 part 'widgets/drag_target_grid.dart';
-
 part 'widgets/empty_item.dart';
-
 part 'widgets/long_press_draggable_grid.dart';
-
 part 'widgets/placeholder_widget.dart';
-
 part 'widgets/press_draggable_grid.dart';
+
+typedef DragCompletion = void Function(List<DraggableGridItem> list,int beforeIndex,int afterIndex);
+typedef DragFeedback = Widget Function(List<DraggableGridItem> list, int index);
+typedef DragChildWhenDragging = Widget Function(List<DraggableGridItem> list, int index);
+typedef DragPlaceHolder = PlaceHolderWidget Function(List<DraggableGridItem> list, int index);
+
 
 class DraggableGridViewBuilder extends StatefulWidget {
   /// [children] will show the widgets in Gridview.builder.
@@ -45,7 +35,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
   final DragPlaceHolder? dragPlaceHolder;
 
   /// [dragCompletion] you have to set this callback to get the updated list.
-  final DragCompletion dragCompletion;
+  final  DragCompletion dragCompletion;
 
   /// all the below arguments for Gridview.builder.
   final Axis scrollDirection;
@@ -141,11 +131,10 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
                 voidCallback: () {
                   setState(() {});
                 },
-                feedback: widget.dragFeedback?.feedback(_list, index),
-                childWhenDragging: widget.dragChildWhenDragging
-                    ?.dragChildWhenDragging(_orgList, index),
+                feedback: widget.dragFeedback?.call(_list, index),
+                childWhenDragging: widget.dragChildWhenDragging?.call(_orgList, index),
                 placeHolder:
-                    widget.dragPlaceHolder?.placeHolder(_orgList, index),
+                    widget.dragPlaceHolder?.call(_orgList, index),
                 dragCompletion: widget.dragCompletion,
               );
       },

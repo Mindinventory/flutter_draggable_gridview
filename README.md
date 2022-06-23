@@ -42,10 +42,24 @@ This package supports drag & drop widgets inside the GridView.builder for multip
           childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 3),
         ),
         children: _listOfDraggableGridItem,
-        dragCompletion: this,
         isOnlyLongPress: false,
-        dragFeedback: this,
-        dragPlaceHolder: this,
+        dragCompletion: (List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
+          print( 'onDragAccept: $beforeIndex -> $afterIndex');
+        },
+        dragFeedback: (List<DraggableGridItem> list, int index) {
+          return Container(
+            child: list[index].child,
+            width: 200,
+            height: 150,
+          );
+        },
+        dragPlaceHolder: (List<DraggableGridItem> list, int index) {
+         return PlaceHolderWidget(
+            child: Container(
+            color: Colors.white,
+          ),
+        );
+      },
       );
 
 ### Required parameters
@@ -57,7 +71,7 @@ A delegate that controls the layout of the children within the GridView.
 This property contains list of [DraggableGridItem] and it is use to show the widget inside the GridView.builder to provide the drag & drop functionality. Also, it contains isDraggable parameter which manages enable/disable the drag & drop functionality. 
 
 ##### dragCompletion:
-This property contains DragCompletion implementation. You have to override and store updated list (if needed).
+This callback provides updated list and old and new indexes.
 
 
 ### Optional parameters
@@ -66,13 +80,13 @@ This property contains DragCompletion implementation. You have to override and s
 This property contains ```bool``` value. If this property is ```false``` then it works with simple press draggable or else it works with long press. default value is 'true'. 
 
 ##### dragFeedback:
-This property contains DragFeedback implementation. If this property overrides then you have to return a Widget and we will use this widget in feedback. Learn more about feedback from [Draggable](https://api.flutter.dev/flutter/widgets/Draggable-class.html#:~:text=Draggable%20class%20Null%20safety,user's%20finger%20across%20the%20screen) class. 
+With this callback, you have to return a Widget and we will use this widget in feedback. Learn more about feedback from [Draggable](https://api.flutter.dev/flutter/widgets/Draggable-class.html#:~:text=Draggable%20class%20Null%20safety,user's%20finger%20across%20the%20screen) class. 
 
 ##### dragPlaceHolder:
-This property contains DragPlaceHolder implementation. If this property overrides then you have to return a PlaceHolderWidget and we will use this widget in place holder. 
+TWith this callback, you have to return a PlaceHolderWidget and we will use this widget in place holder. 
 
 ##### dragChildWhenDragging:
-This property contains DragChildWhenDragging implementation. If this property overrides then you have to return a Widget and we will display this widget instead of child when drags are under way. Learn more about childWhenDragging from [Draggable](https://api.flutter.dev/flutter/widgets/Draggable-class.html#:~:text=Draggable%20class%20Null%20safety,user's%20finger%20across%20the%20screen) class.
+With this callback, you have to return a Widget and we will display this widget instead of child when drags are under way. Learn more about childWhenDragging from [Draggable](https://api.flutter.dev/flutter/widgets/Draggable-class.html#:~:text=Draggable%20class%20Null%20safety,user's%20finger%20across%20the%20screen) class.
 
 
 ### Last But Not Least :heart_eyes: 

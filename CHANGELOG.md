@@ -1,3 +1,8 @@
+## [0.0.5] - 2022-06-23
+
+* Added old-index and new-index parameters in onAccept callback.
+* Replaced abstract classes with simple callbacks.
+
 ## [0.0.5] - 2022-05-16
 
 * Fixed bug.
