@@ -105,6 +105,16 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
   }
 
   @override
+  void didUpdateWidget(DraggableGridViewBuilder oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    assert(widget.children.isNotEmpty, 'Children must not be empty.');
+
+    _list = [...widget.children];
+    _orgList = [...widget.children];
+    _isOnlyLongPress = widget.isOnlyLongPress;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GridView.builder(
       scrollDirection: widget.scrollDirection,
