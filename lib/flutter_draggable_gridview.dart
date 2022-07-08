@@ -5,18 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_draggable_gridview/constants/colors.dart';
 
 part 'common/global_variables.dart';
+
 part 'models/draggable_gridItem.dart';
+
 part 'widgets/drag_target_grid.dart';
+
 part 'widgets/empty_item.dart';
+
 part 'widgets/long_press_draggable_grid.dart';
+
 part 'widgets/placeholder_widget.dart';
+
 part 'widgets/press_draggable_grid.dart';
 
-typedef DragCompletion = void Function(List<DraggableGridItem> list,int beforeIndex,int afterIndex);
+typedef DragCompletion = void Function(List<DraggableGridItem> list, int beforeIndex, int afterIndex);
 typedef DragFeedback = Widget Function(List<DraggableGridItem> list, int index);
 typedef DragChildWhenDragging = Widget Function(List<DraggableGridItem> list, int index);
 typedef DragPlaceHolder = PlaceHolderWidget Function(List<DraggableGridItem> list, int index);
-
 
 class DraggableGridViewBuilder extends StatefulWidget {
   /// [children] will show the widgets in Gridview.builder.
@@ -35,7 +40,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
   final DragPlaceHolder? dragPlaceHolder;
 
   /// [dragCompletion] you have to set this callback to get the updated list.
-  final  DragCompletion dragCompletion;
+  final DragCompletion dragCompletion;
 
   /// all the below arguments for Gridview.builder.
   final Axis scrollDirection;
@@ -138,7 +143,7 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
             ? _list[index].child
             : DragTargetGrid(
                 index: index,
-                voidCallback: () {
+                onChangeCallback: () {
                   setState(() {});
                 },
                 feedback: widget.dragFeedback?.call(_list, index),
