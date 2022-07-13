@@ -1,9 +1,8 @@
 import 'package:example/constants/colors.dart';
-import 'package:example/constants/dimens.dart';
-import 'package:example/constants/images.dart';
 import 'package:example/constants/strings.dart';
+import 'package:example/pages/grid_example.dart';
+import 'package:example/pages/grid_with_scrollcontroller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_draggable_gridview/flutter_draggable_gridview.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: Strings.app_title,
       theme: ThemeData(
         primarySwatch: AppColors.primaryColor,
@@ -24,116 +24,54 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  MyHomePageState createState() => MyHomePageState();
-}
-
-class MyHomePageState extends State<MyHomePage>{
-  List<DraggableGridItem> _listOfDraggableGridItem = [];
-
-  @override
-  void initState() {
-    _generateImageData();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFEFEEEE),
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          widget.title,
+        title: Text(title),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GridExample(
+                        title: 'Grid Example',
+                      ),
+                    ),
+                  );
+                },
+                child: Text('Grid Example'),
+              ),
+              SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GridWithScrollControllerExample(
+                        title: 'Grid + ScrollController',
+                      ),
+                    ),
+                  );
+                },
+                child: Text('Grid With ScrollController Example'),
+              ),
+            ],
+          ),
         ),
-      ),
-      body: DraggableGridViewBuilder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 3),
-        ),
-        children: _listOfDraggableGridItem,
-        dragCompletion: onDragAccept,
-        isOnlyLongPress: false,
-        dragFeedback: feedback,
-        dragPlaceHolder: placeHolder,
-      ),
-    );
-  }
-
-  Widget feedback(List<DraggableGridItem> list, int index) {
-    return Container(
-      child: list[index].child,
-      width: 200,
-      height: 150,
-    );
-  }
-
-  PlaceHolderWidget placeHolder(List<DraggableGridItem> list, int index) {
-    return PlaceHolderWidget(
-      child: Container(
-        color: Colors.white,
-      ),
-    );
-  }
-
-  void onDragAccept(List<DraggableGridItem> list,int beforeIndex,int afterIndex) {
-    print( 'onDragAccept: $beforeIndex -> $afterIndex');
-  }
-
-  void _generateImageData() {
-    _listOfDraggableGridItem.addAll(
-      [
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_1), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_2), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_3), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_4), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_5), isDraggable: false),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_6), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_7), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_8), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_9), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_10), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_11), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_12), isDraggable: true),
-        DraggableGridItem(
-            child: _GridItem(image: Images.asset_13), isDraggable: true),
-      ],
-    );
-  }
-}
-
-class _GridItem extends StatelessWidget {
-  const _GridItem({required this.image, Key? key}) : super(key: key);
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimens.padding_small,
-        vertical: Dimens.padding_small,
-      ),
-      child: Image.asset(
-        image,
-        fit: BoxFit.cover,
       ),
     );
   }

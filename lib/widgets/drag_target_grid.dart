@@ -2,16 +2,16 @@ part of draggable_grid_view;
 
 class DragTargetGrid extends StatefulWidget {
   final int index;
-  final VoidCallback voidCallback;
+  final VoidCallback? onChangeCallback;
   final Widget? feedback;
   final Widget? childWhenDragging;
   final PlaceHolderWidget? placeHolder;
-  final DragCompletion dragCompletion;
+  final DragCompletion? dragCompletion;
 
   const DragTargetGrid({
     Key? key,
     required this.index,
-    required this.voidCallback,
+    required this.onChangeCallback,
     this.feedback,
     this.childWhenDragging,
     this.placeHolder,
@@ -40,11 +40,12 @@ class _DragTargetGridState extends State<DragTargetGrid> {
         return true;
       },
       onMove: (details) {
+        _list[widget.index].dragCallback?.call(context, true);
         /// Update state when item is moving.
         setState(() {
           _setDragStartedData(details, widget.index);
           _checkIndexesAreDifferent(details, widget.index);
-          widget.voidCallback();
+          widget.onChangeCallback?.call();
         });
       },
       builder: (
@@ -131,8 +132,9 @@ class _DragTargetGridState extends State<DragTargetGrid> {
     _orgList = [..._list];
     _dragStarted = false;
 
-    widget.voidCallback();
-    widget.dragCompletion.call(_orgList, _draggedIndex, _lastIndex);
+    widget.onChangeCallback?.call();
+    _list[index].dragCallback?.call(context, false);
+    widget.dragCompletion?.call(_orgList, _draggedIndex, _lastIndex);
     _draggedIndex = -1;
     _lastIndex = -1;
     _draggedGridItem = null;

@@ -1,3 +1,8 @@
+## [0.0.7] - 2022-07-13
+
+* Added dragged listener to the DraggableGridItem. 
+* Updated example with scroll controller.
+
 ## [0.0.6] - 2022-06-23
 
 * Added old-index and new-index parameters in onAccept callback.
