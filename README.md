@@ -36,7 +36,8 @@ This package supports drag & drop widgets inside the GridView.builder for multip
 ## Usage
 
 ### Example
-    DraggableGridViewBuilder(
+```dart
+      DraggableGridViewBuilder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 3),
@@ -54,14 +55,14 @@ This package supports drag & drop widgets inside the GridView.builder for multip
           );
         },
         dragPlaceHolder: (List<DraggableGridItem> list, int index) {
-         return PlaceHolderWidget(
+          return PlaceHolderWidget(
             child: Container(
-            color: Colors.white,
-          ),
-        );
-      },
+              color: Colors.white,
+            ),
+          );
+        },
       );
-
+```
 ### Required parameters
 
 ##### gridDelegate:
