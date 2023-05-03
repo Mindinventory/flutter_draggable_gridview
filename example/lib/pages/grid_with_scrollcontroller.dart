@@ -19,8 +19,8 @@ class GridWithScrollControllerExample extends StatefulWidget {
 
 class GridWithScrollControllerExampleState
     extends State<GridWithScrollControllerExample> {
-  List<DraggableGridItem> _listOfDraggableGridItem = [];
-  ScrollController _scrollController = new ScrollController(
+  final List<DraggableGridItem> _listOfDraggableGridItem = [];
+  final ScrollController _scrollController = ScrollController(
     initialScrollOffset: 0.0,
     keepScrollOffset: true,
   );
@@ -60,10 +60,10 @@ class GridWithScrollControllerExampleState
   }
 
   Widget feedback(List<DraggableGridItem> list, int index) {
-    return Container(
-      child: list[index].child,
+    return SizedBox(
       width: 200,
       height: 150,
+      child: list[index].child,
     );
   }
 
@@ -84,36 +84,36 @@ class GridWithScrollControllerExampleState
     _listOfDraggableGridItem.addAll(
       [
         DraggableGridItem(
-          child: GridItem(image: Images.asset_1),
+          child: const GridItem(image: Images.asset_1),
           isDraggable: true,
           dragCallback: (context, isDragging) {
             log('isDragging: $isDragging');
           },
         ),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_2), isDraggable: true),
+            child: const GridItem(image: Images.asset_2), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_3), isDraggable: true),
+            child: const GridItem(image: Images.asset_3), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_4), isDraggable: true),
+            child: const GridItem(image: Images.asset_4), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_5), isDraggable: false),
+            child: const GridItem(image: Images.asset_5), isDraggable: false),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_6), isDraggable: true),
+            child: const GridItem(image: Images.asset_6), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_7), isDraggable: true),
+            child: const GridItem(image: Images.asset_7), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_8), isDraggable: true),
+            child: const GridItem(image: Images.asset_8), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_9), isDraggable: true),
+            child: const GridItem(image: Images.asset_9), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_10), isDraggable: true),
+            child: const GridItem(image: Images.asset_10), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_11), isDraggable: true),
+            child: const GridItem(image: Images.asset_11), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_12), isDraggable: true),
+            child: const GridItem(image: Images.asset_12), isDraggable: true),
         DraggableGridItem(
-            child: GridItem(image: Images.asset_13), isDraggable: true),
+            child: const GridItem(image: Images.asset_13), isDraggable: true),
       ],
     );
   }

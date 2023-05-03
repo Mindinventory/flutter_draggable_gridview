@@ -8,9 +8,9 @@ class GridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimens.padding_small,
-        vertical: Dimens.padding_small,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Dimens.paddingSmall,
+        vertical: Dimens.paddingSmall,
       ),
       child: Image.asset(
         image,
