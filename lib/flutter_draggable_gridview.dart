@@ -1,5 +1,7 @@
 library draggable_grid_view;
 
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_draggable_gridview/constants/colors.dart';
@@ -18,10 +20,13 @@ part 'widgets/placeholder_widget.dart';
 
 part 'widgets/press_draggable_grid.dart';
 
-typedef DragCompletion = void Function(List<DraggableGridItem> list, int beforeIndex, int afterIndex);
+typedef DragCompletion = void Function(
+    List<DraggableGridItem> list, int beforeIndex, int afterIndex);
 typedef DragFeedback = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragChildWhenDragging = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragPlaceHolder = PlaceHolderWidget Function(List<DraggableGridItem> list, int index);
+typedef DragChildWhenDragging = Widget Function(
+    List<DraggableGridItem> list, int index);
+typedef DragPlaceHolder = PlaceHolderWidget Function(
+    List<DraggableGridItem> list, int index);
 
 class DraggableGridViewBuilder extends StatefulWidget {
   /// [children] will show the widgets in Gridview.builder.
@@ -143,13 +148,11 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
             ? _list[index].child
             : DragTargetGrid(
                 index: index,
-                onChangeCallback: () {
-                  setState(() {});
-                },
+                onChangeCallback: () => setState(() {}),
                 feedback: widget.dragFeedback?.call(_list, index),
-                childWhenDragging: widget.dragChildWhenDragging?.call(_orgList, index),
-                placeHolder:
-                    widget.dragPlaceHolder?.call(_orgList, index),
+                childWhenDragging:
+                    widget.dragChildWhenDragging?.call(_orgList, index),
+                placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
                 dragCompletion: widget.dragCompletion,
               );
       },

@@ -9,17 +9,15 @@ class PressDraggableGridView extends StatelessWidget {
   const PressDraggableGridView({
     Key? key,
     required this.index,
+    required this.onDragCancelled,
     this.feedback,
     this.childWhenDragging,
-    required this.onDragCancelled,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Draggable(
-      onDraggableCanceled: (velocity, offset) {
-        onDragCancelled();
-      },
+      onDraggableCanceled: (_, __) => onDragCancelled(),
       onDragStarted: () {
         if (_dragEnded) {
           _dragStarted = true;

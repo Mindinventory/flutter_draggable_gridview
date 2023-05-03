@@ -14,12 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: Strings.app_title,
-      theme: ThemeData(
-        primarySwatch: AppColors.primaryColor,
-      ),
-      home: MyHomePage(
-        title: Strings.app_title,
-      ),
+      theme: ThemeData(primarySwatch: AppColors.primaryColor),
+      home: MyHomePage(title: Strings.app_title),
     );
   }
 }
@@ -47,9 +43,7 @@ class MyHomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GridExample(
-                        title: 'Grid Example',
-                      ),
+                      builder: (context) => GridExample(title: 'Grid Example'),
                     ),
                   );
                 },
@@ -62,8 +56,7 @@ class MyHomePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => GridWithScrollControllerExample(
-                        title: 'Grid + ScrollController',
-                      ),
+                          title: 'Grid + ScrollController'),
                     ),
                   );
                 },

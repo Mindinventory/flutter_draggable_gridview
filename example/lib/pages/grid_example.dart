@@ -1,11 +1,7 @@
 import 'dart:developer';
 
-import 'package:example/constants/colors.dart';
-import 'package:example/constants/dimens.dart';
 import 'package:example/constants/images.dart';
-import 'package:example/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_draggable_gridview/flutter_draggable_gridview.dart';
 
 import '../widgets/grid_item_widget.dart';
@@ -19,7 +15,7 @@ class GridExample extends StatefulWidget {
   GridExampleState createState() => GridExampleState();
 }
 
-class GridExampleState extends State<GridExample>{
+class GridExampleState extends State<GridExample> {
   List<DraggableGridItem> _listOfDraggableGridItem = [];
 
   @override
@@ -46,7 +42,7 @@ class GridExampleState extends State<GridExample>{
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
-          isOnlyLongPress: false,
+          isOnlyLongPress: true,
           dragFeedback: feedback,
           dragPlaceHolder: placeHolder,
         ),
@@ -70,7 +66,8 @@ class GridExampleState extends State<GridExample>{
     );
   }
 
-  void onDragAccept(List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
+  void onDragAccept(
+      List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
     log('onDragAccept: $beforeIndex -> $afterIndex');
   }
 
@@ -84,18 +81,30 @@ class GridExampleState extends State<GridExample>{
             log('isDragging: $isDragging');
           },
         ),
-        DraggableGridItem(child: GridItem(image: Images.asset_2), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_3), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_4), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_5), isDraggable: false),
-        DraggableGridItem(child: GridItem(image: Images.asset_6), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_7), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_8), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_9), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_10), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_11), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_12), isDraggable: true),
-        DraggableGridItem(child: GridItem(image: Images.asset_13), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_2), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_3), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_4), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_5), isDraggable: false),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_6), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_7), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_8), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_9), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_10), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_11), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_12), isDraggable: true),
+        DraggableGridItem(
+            child: GridItem(image: Images.asset_13), isDraggable: true),
       ],
     );
   }
