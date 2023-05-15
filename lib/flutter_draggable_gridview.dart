@@ -1,12 +1,14 @@
 library draggable_grid_view;
 
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_draggable_gridview/constants/colors.dart';
 
 part 'common/global_variables.dart';
 
-part 'models/draggable_gridItem.dart';
+part 'models/draggable_grid_item.dart';
 
 part 'widgets/drag_target_grid.dart';
 
@@ -18,10 +20,13 @@ part 'widgets/placeholder_widget.dart';
 
 part 'widgets/press_draggable_grid.dart';
 
-typedef DragCompletion = void Function(List<DraggableGridItem> list, int beforeIndex, int afterIndex);
+typedef DragCompletion = void Function(
+    List<DraggableGridItem> list, int beforeIndex, int afterIndex);
 typedef DragFeedback = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragChildWhenDragging = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragPlaceHolder = PlaceHolderWidget Function(List<DraggableGridItem> list, int index);
+typedef DragChildWhenDragging = Widget Function(
+    List<DraggableGridItem> list, int index);
+typedef DragPlaceHolder = PlaceHolderWidget Function(
+    List<DraggableGridItem> list, int index);
 
 class DraggableGridViewBuilder extends StatefulWidget {
   /// [children] will show the widgets in Gridview.builder.
@@ -42,7 +47,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
   /// [dragCompletion] you have to set this callback to get the updated list.
   final DragCompletion dragCompletion;
 
-  /// all the below arguments for Gridview.builder.
+  /// all the below variables for Gridview.builder.
   final Axis scrollDirection;
   final bool reverse;
   final ScrollController? controller;
@@ -86,16 +91,14 @@ class DraggableGridViewBuilder extends StatefulWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   @override
-  _DraggableGridViewBuilderState createState() =>
-      _DraggableGridViewBuilderState();
+  DraggableGridViewBuilderState createState() =>
+      DraggableGridViewBuilderState();
 }
 
-class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
+class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
   @override
   void initState() {
     super.initState();
@@ -143,13 +146,11 @@ class _DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
             ? _list[index].child
             : DragTargetGrid(
                 index: index,
-                onChangeCallback: () {
-                  setState(() {});
-                },
+                onChangeCallback: () => setState(() {}),
                 feedback: widget.dragFeedback?.call(_list, index),
-                childWhenDragging: widget.dragChildWhenDragging?.call(_orgList, index),
-                placeHolder:
-                    widget.dragPlaceHolder?.call(_orgList, index),
+                childWhenDragging:
+                    widget.dragChildWhenDragging?.call(_orgList, index),
+                placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
                 dragCompletion: widget.dragCompletion,
               );
       },

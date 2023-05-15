@@ -1,3 +1,3 @@
 class Strings {
-  static const app_title = 'Draggable GridView';
+  static const appTitle = 'Draggable GridView';
 }

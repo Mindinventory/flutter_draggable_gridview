@@ -1,3 +1,8 @@
+## [0.0.8] - 2023-05-03
+
+* Resolved github issue [#18]
+* Minor improvements
+
 ## [0.0.7] - 2022-07-13
 
 * Added dragged listener to the DraggableGridItem. 

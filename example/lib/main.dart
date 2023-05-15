@@ -5,21 +5,19 @@ import 'package:example/pages/grid_with_scrollcontroller.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: Strings.app_title,
-      theme: ThemeData(
-        primarySwatch: AppColors.primaryColor,
-      ),
-      home: MyHomePage(
-        title: Strings.app_title,
-      ),
+      title: Strings.appTitle,
+      theme: ThemeData(primarySwatch: AppColors.primaryColor),
+      home: const MyHomePage(title: Strings.appTitle),
     );
   }
 }
@@ -32,7 +30,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEFEEEE),
+      backgroundColor: const Color(0xFFEFEEEE),
       appBar: AppBar(
         centerTitle: true,
         title: Text(title),
@@ -47,27 +45,25 @@ class MyHomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GridExample(
-                        title: 'Grid Example',
-                      ),
-                    ),
+                        builder: (context) =>
+                            const GridExample(title: 'Grid Example')),
                   );
                 },
-                child: Text('Grid Example'),
+                child: const Text('Grid Example'),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GridWithScrollControllerExample(
-                        title: 'Grid + ScrollController',
-                      ),
+                      builder: (context) =>
+                          const GridWithScrollControllerExample(
+                              title: 'Grid + ScrollController'),
                     ),
                   );
                 },
-                child: Text('Grid With ScrollController Example'),
+                child: const Text('Grid With ScrollController Example'),
               ),
             ],
           ),

@@ -1,5 +1,5 @@
 class Dimens {
   // Padding
-  static const padding_small = 4.0;
-  static const padding_normal = 8.0;
+  static const paddingSmall = 4.0;
+  static const paddingNormal = 8.0;
 }

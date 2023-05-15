@@ -1,7 +1,8 @@
 name: flutter_draggable_gridview
 description: This package helps you to add drag & drop functionality to exising Gridview.builder.
-version: 0.0.7
-homepage: https://github.com/Mindinventory/flutter_draggable_gridview
+version: 0.0.8
+repository: https://github.com/Mindinventory/flutter_draggable_gridview
+issue_tracker: https://github.com/Mindinventory/flutter_draggable_gridview/issues
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -14,6 +15,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true

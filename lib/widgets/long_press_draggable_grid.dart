@@ -10,13 +10,23 @@ class LongPressDraggableGridView extends StatelessWidget {
   /// [DragChildWhenDragging] this to display the widget at dragged widget place when the widget is being dragged.
   final Widget? childWhenDragging;
 
-  const LongPressDraggableGridView(
-      {required this.index, this.feedback, this.childWhenDragging, Key? key})
-      : super(key: key);
+  final VoidCallback onDragCancelled;
+
+  const LongPressDraggableGridView({
+    required this.index,
+    required this.onDragCancelled,
+    this.feedback,
+    this.childWhenDragging,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LongPressDraggable(
+      onDraggableCanceled: (_, __) => onDragCancelled(),
+      onDragCompleted: () {
+        log('');
+      },
       onDragStarted: () {
         if (_dragEnded) {
           _dragStarted = true;
@@ -29,9 +39,9 @@ class LongPressDraggableGridView extends StatelessWidget {
       },
       data: index,
       feedback: feedback ?? _list[index].child,
-      child: _list[index].child,
       childWhenDragging:
           childWhenDragging ?? _draggedGridItem?.child ?? _list[index].child,
+      child: _list[index].child,
     );
   }
 }
