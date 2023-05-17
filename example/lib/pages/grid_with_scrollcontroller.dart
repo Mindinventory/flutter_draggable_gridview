@@ -51,7 +51,7 @@ class GridWithScrollControllerExampleState
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
-          isOnlyLongPress: false,
+          isOnlyLongPress: true,
           dragFeedback: feedback,
           dragPlaceHolder: placeHolder,
         ),
