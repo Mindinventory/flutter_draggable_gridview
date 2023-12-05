@@ -1,5 +1,6 @@
 part of draggable_grid_view;
 
+//ignore: must_be_immutable
 class LongPressDraggableGridView extends StatelessWidget {
   /// [index] is use to get item from the list.
   final int index;
@@ -9,11 +10,25 @@ class LongPressDraggableGridView extends StatelessWidget {
 
   /// [DragChildWhenDragging] this to display the widget at dragged widget place when the widget is being dragged.
   final Widget? childWhenDragging;
+  List<DraggableGridItem> list;
 
   final VoidCallback onDragCancelled;
+  bool dragStarted;
+  bool dragEnded;
 
-  const LongPressDraggableGridView({
+  Function(bool) onDragStarted;
+  Function(bool) onDragEnded;
+
+  DraggableGridItem? draggedGridItem;
+
+  LongPressDraggableGridView({
+    required this.dragEnded,
+    required this.dragStarted,
+    required this.onDragEnded,
+    required this.onDragStarted,
+    required this.draggedGridItem,
     required this.index,
+    required this.list,
     required this.onDragCancelled,
     this.feedback,
     this.childWhenDragging,
@@ -22,26 +37,29 @@ class LongPressDraggableGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LongPressDraggable(
+    return LongPressDraggable<(int, DraggableGridItem)>(
       onDraggableCanceled: (_, __) => onDragCancelled(),
       onDragCompleted: () {
         log('');
       },
       onDragStarted: () {
-        if (_dragEnded) {
-          _dragStarted = true;
-          _dragEnded = false;
+        if (dragEnded) {
+          dragStarted = true;
+          dragEnded = false;
+          onDragStarted.call(true);
+          onDragEnded.call(false);
         }
       },
       onDragEnd: (details) {
-        _dragEnded = true;
-        _dragStarted = false;
+        dragEnded = true;
+        dragStarted = false;
+        onDragStarted.call(false);
+        onDragEnded.call(true);
       },
-      data: index,
-      feedback: feedback ?? _list[index].child,
-      childWhenDragging:
-          childWhenDragging ?? _draggedGridItem?.child ?? _list[index].child,
-      child: _list[index].child,
+      data: (index, list[index]),
+      feedback: feedback ?? list[index].child,
+      childWhenDragging: childWhenDragging ?? draggedGridItem?.child ?? list[index].child,
+      child: list[index].child,
     );
   }
 }

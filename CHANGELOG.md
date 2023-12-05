@@ -1,3 +1,8 @@
+## [0.0.9] - 2023-12-05
+
+* Resolved github issue [#20]
+* Minor improvements
+
 ## [0.0.8] - 2023-05-03
 
 * Resolved github issue [#18]
