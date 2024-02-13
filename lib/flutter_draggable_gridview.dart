@@ -65,6 +65,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final String? restorationId;
   final Clip clipBehavior;
+  final bool sliverMode;
 
   const DraggableGridViewBuilder({
     Key? key,
@@ -91,6 +92,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
+    this.sliverMode = false,
   }) : super(key: key);
 
   @override
@@ -124,6 +126,24 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.sliverMode) {
+      return SliverGrid.builder(
+          itemCount: _list.length,
+          gridDelegate: widget.gridDelegate,
+          itemBuilder: ((context, index) {
+            return (!_list[index].isDraggable)
+                ? _list[index].child
+                : DragTargetGrid(
+                    index: index,
+                    onChangeCallback: () => setState(() {}),
+                    feedback: widget.dragFeedback?.call(_list, index),
+                    childWhenDragging:
+                        widget.dragChildWhenDragging?.call(_orgList, index),
+                    placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
+                    dragCompletion: widget.dragCompletion,
+                  );
+          }));
+    }
     return GridView.builder(
       scrollDirection: widget.scrollDirection,
       reverse: widget.reverse,
