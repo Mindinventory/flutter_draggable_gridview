@@ -58,14 +58,14 @@ class DragTargetGridState extends State<DragTargetGrid> {
   Widget build(BuildContext context) {
     return DragTarget<(int, DraggableGridItem)>(
       /// When drag is completes and other item index is ready to accept it.
-      onAccept: (data) => setState(() {
+      onAcceptWithDetails: (data) => setState(() {
         _onDragComplete(widget.index);
       }),
       onLeave: (details) {},
 
       /// Drag is acceptable in this index else this place.
-      onWillAccept: (details) {
-        return details != null && widget.orgList.contains(details.$2);
+      onWillAcceptWithDetails: (details) {
+        return widget.orgList.contains(details);
       },
       onMove: (details) {
         if (widget.orgList.contains(details.data.$2)) {
@@ -79,7 +79,8 @@ class DragTargetGridState extends State<DragTargetGrid> {
           });
         }
       },
-      builder: (BuildContext context, List<dynamic> accepted, List<dynamic> rejected) {
+      builder: (BuildContext context, List<dynamic> accepted,
+          List<dynamic> rejected) {
         /// [_isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
         return (widget.isOnlyLongPress)
             ? LongPressDraggableGridView(
@@ -123,25 +124,30 @@ class DragTargetGridState extends State<DragTargetGrid> {
   }
 
   /// Set drag data when dragging start.
-  void _setDragStartedData(DragTargetDetails<(int, DraggableGridItem)> details, int index) {
+  void _setDragStartedData(
+      DragTargetDetails<(int, DraggableGridItem)> details, int index) {
     if (_dragStarted) {
       _dragStarted = false;
       _draggedIndexRemoved = false;
       _draggedIndex = details.data.$1;
-      _draggedGridItem = DraggableGridItem(child: widget.placeHolder ?? const EmptyItem(), isDraggable: true);
+      _draggedGridItem = DraggableGridItem.withoutIndex(
+          child: widget.placeHolder ?? const EmptyItem(), isDraggable: true);
       _lastIndex = _draggedIndex;
       widget.onDragGridItem.call(_draggedGridItem);
     }
   }
 
   /// When [_draggedIndex] and [_lastIndex] both are different that means item is dragged and travelling to other place.
-  void _checkIndexesAreDifferent(DragTargetDetails<(int, DraggableGridItem)> details, int index) {
+  void _checkIndexesAreDifferent(
+      DragTargetDetails<(int, DraggableGridItem)> details, int index) {
     /// Here, check [_draggedIndex] is != -1.
     /// And also check index is not equal to _lastIndex. Means if both will true then skip it. else do some operations.
 
     if (_draggedIndex != -1 && index != _lastIndex) {
       widget.list.removeWhere((element) {
-        return (widget.placeHolder != null) ? element.child is PlaceHolderWidget : element.child is EmptyItem;
+        return (widget.placeHolder != null)
+            ? element.child is PlaceHolderWidget
+            : element.child is EmptyItem;
       });
 
       /// store _lastIndex as index.
@@ -154,12 +160,16 @@ class DragTargetGridState extends State<DragTargetGrid> {
       if (_draggedIndex > _lastIndex) {
         _draggedGridItem = widget.orgList[_draggedIndex - 1];
       } else {
-        _draggedGridItem = widget.orgList[(_draggedIndex + 1 >= widget.list.length) ? _draggedIndex : _draggedIndex + 1];
+        _draggedGridItem = widget.orgList[
+            (_draggedIndex + 1 >= widget.list.length)
+                ? _draggedIndex
+                : _draggedIndex + 1];
       }
 
       /// If dragged index and current index both are same then show place holder widget(if user it overridden). else show EmptyItem class.
       if (_draggedIndex == _lastIndex) {
-        _draggedGridItem = DraggableGridItem(child: widget.placeHolder ?? const EmptyItem(), isDraggable: true);
+        _draggedGridItem = DraggableGridItem.withoutIndex(
+            child: widget.placeHolder ?? const EmptyItem(), isDraggable: true);
       }
 
       if (!_draggedIndexRemoved) {
@@ -168,7 +178,8 @@ class DragTargetGridState extends State<DragTargetGrid> {
       }
       widget.list.insert(
         _lastIndex,
-        DraggableGridItem(child: widget.placeHolder ?? const EmptyItem(), isDraggable: true),
+        DraggableGridItem.withoutIndex(
+            child: widget.placeHolder ?? const EmptyItem(), isDraggable: true),
       );
     }
     widget.onDragGridItem.call(_draggedGridItem);
