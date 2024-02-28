@@ -8,14 +8,10 @@ class DraggableGridItem {
       {required this.child,
       this.isDraggable = false,
       this.dragCallback,
-      required this.index});
+      this.index = 0});
 
   final int index;
   final bool isDraggable;
   final Widget child;
   final Function(BuildContext context, bool isDragging)? dragCallback;
-
-  DraggableGridItem.withoutIndex(
-      {required this.child, this.isDraggable = false, this.dragCallback})
-      : index = 0;
 }
