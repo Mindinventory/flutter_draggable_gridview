@@ -8,17 +8,26 @@ import 'package:flutter/material.dart';
 import 'constants/colors.dart';
 
 part 'common/global_variables.dart';
+
 part 'models/draggable_grid_item.dart';
+
 part 'widgets/drag_target_grid.dart';
+
 part 'widgets/empty_item.dart';
+
 part 'widgets/long_press_draggable_grid.dart';
+
 part 'widgets/placeholder_widget.dart';
+
 part 'widgets/press_draggable_grid.dart';
 
-typedef DragCompletion = void Function(List<DraggableGridItem> list, int beforeIndex, int afterIndex);
+typedef DragCompletion = void Function(
+    List<DraggableGridItem> list, int beforeIndex, int afterIndex);
 typedef DragFeedback = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragChildWhenDragging = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragPlaceHolder = PlaceHolderWidget Function(List<DraggableGridItem> list, int index);
+typedef DragChildWhenDragging = Widget Function(
+    List<DraggableGridItem> list, int index);
+typedef DragPlaceHolder = PlaceHolderWidget Function(
+    List<DraggableGridItem> list, int index);
 
 class DraggableGridViewBuilder extends StatefulWidget {
   /// [children] will show the widgets in Gridview.builder.
@@ -88,7 +97,8 @@ class DraggableGridViewBuilder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  DraggableGridViewBuilderState createState() => DraggableGridViewBuilderState();
+  DraggableGridViewBuilderState createState() =>
+      DraggableGridViewBuilderState();
 }
 
 class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
@@ -124,21 +134,36 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
   Widget build(BuildContext context) {
     if (widget.sliverMode) {
       return SliverGrid.builder(
-          itemCount: _list.length,
-          gridDelegate: widget.gridDelegate,
-          itemBuilder: ((context, index) {
-            return (!_list[index].isDraggable)
-                ? _list[index].child
-                : DragTargetGrid(
-                    index: index,
-                    onChangeCallback: () => setState(() {}),
-                    feedback: widget.dragFeedback?.call(_list, index),
-                    childWhenDragging:
-                        widget.dragChildWhenDragging?.call(_orgList, index),
-                    placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
-                    dragCompletion: widget.dragCompletion,
-                  );
-          }));
+        itemCount: _list.length,
+        gridDelegate: widget.gridDelegate,
+        itemBuilder: (context, index) {
+          return (!_list[index].isDraggable)
+              ? _list[index].child
+              : DragTargetGrid(
+                  index: index,
+                  onChangeCallback: () => setState(() {}),
+                  feedback: widget.dragFeedback?.call(_list, index),
+                  childWhenDragging:
+                      widget.dragChildWhenDragging?.call(_orgList, index),
+                  placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
+                  dragCompletion: widget.dragCompletion,
+                  list: _list,
+                  draggedGridItem: _draggedGridItem,
+                  onDragGridItem: (DraggableGridItem? data) {
+                    _draggedGridItem = data;
+                    setState(() {});
+                  },
+                  onOrgListUpdate: (List<DraggableGridItem> data) {
+                    _orgList = data;
+                  },
+                  onListUpdate: (List<DraggableGridItem> data) {
+                    _list = data;
+                  },
+                  orgList: _orgList,
+                  isOnlyLongPress: _isOnlyLongPress,
+                );
+        },
+      );
     }
     return GridView.builder(
       scrollDirection: widget.scrollDirection,
@@ -164,7 +189,8 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
                 index: index,
                 onChangeCallback: () => setState(() {}),
                 feedback: widget.dragFeedback?.call(_list, index),
-                childWhenDragging: widget.dragChildWhenDragging?.call(_orgList, index),
+                childWhenDragging:
+                    widget.dragChildWhenDragging?.call(_orgList, index),
                 placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
                 dragCompletion: widget.dragCompletion,
                 isOnlyLongPress: _isOnlyLongPress,
