@@ -69,7 +69,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
   final bool sliverMode;
 
   const DraggableGridViewBuilder({
-    Key? key,
+    super.key,
     required this.gridDelegate,
     required this.children,
     required this.dragCompletion,
@@ -94,7 +94,7 @@ class DraggableGridViewBuilder extends StatefulWidget {
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.sliverMode = false,
-  }) : super(key: key);
+  });
 
   @override
   DraggableGridViewBuilderState createState() =>
@@ -112,7 +112,7 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
     super.initState();
     assert(widget.children.isNotEmpty, 'Children must not be empty.');
 
-    /// [list] will update when the widget is beign dragged.
+    /// [list] will update when the widget is being dragged.
     _list = [...widget.children];
 
     /// [orgList] will set when the drag completes.

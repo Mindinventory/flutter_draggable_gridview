@@ -1,4 +1,4 @@
-part of draggable_grid_view;
+part of '../flutter_draggable_gridview.dart';
 
 // var dragStarted = false;
 // var dragEnded = true;

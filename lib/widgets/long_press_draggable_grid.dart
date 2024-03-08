@@ -1,4 +1,4 @@
-part of draggable_grid_view;
+part of '../flutter_draggable_gridview.dart';
 
 //ignore: must_be_immutable
 class LongPressDraggableGridView extends StatelessWidget {
@@ -32,8 +32,8 @@ class LongPressDraggableGridView extends StatelessWidget {
     required this.onDragCancelled,
     this.feedback,
     this.childWhenDragging,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,8 @@ class LongPressDraggableGridView extends StatelessWidget {
       },
       data: (index, list[index]),
       feedback: feedback ?? list[index].child,
-      childWhenDragging: childWhenDragging ?? draggedGridItem?.child ?? list[index].child,
+      childWhenDragging:
+          childWhenDragging ?? draggedGridItem?.child ?? list[index].child,
       child: list[index].child,
     );
   }

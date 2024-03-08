@@ -35,7 +35,8 @@ class GridExampleState extends State<GridExample> {
         child: DraggableGridViewBuilder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 3),
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 3),
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
@@ -63,7 +64,8 @@ class GridExampleState extends State<GridExample> {
     );
   }
 
-  void onDragAccept(List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
+  void onDragAccept(
+      List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
     log('onDragAccept: $beforeIndex -> $afterIndex');
   }
 
@@ -77,18 +79,30 @@ class GridExampleState extends State<GridExample> {
             log('isDragging: $isDragging');
           },
         ),
-        DraggableGridItem(child: const GridItem(image: Images.asset_2), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_3), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_4), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_5), isDraggable: false),
-        DraggableGridItem(child: const GridItem(image: Images.asset_6), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_7), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_8), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_9), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_10), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_11), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_12), isDraggable: true),
-        DraggableGridItem(child: const GridItem(image: Images.asset_13), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_2), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_3), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_4), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_5), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_6), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_7), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_8), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_9), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_10), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_11), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_12), isDraggable: true),
+        DraggableGridItem(
+            child: const GridItem(image: Images.asset_13), isDraggable: true),
       ],
     );
   }

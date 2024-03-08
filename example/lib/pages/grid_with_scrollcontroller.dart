@@ -97,7 +97,7 @@ class GridWithScrollControllerExampleState
         DraggableGridItem(
             child: const GridItem(image: Images.asset_4), isDraggable: true),
         DraggableGridItem(
-            child: const GridItem(image: Images.asset_5), isDraggable: false),
+            child: const GridItem(image: Images.asset_5), isDraggable: true),
         DraggableGridItem(
             child: const GridItem(image: Images.asset_6), isDraggable: true),
         DraggableGridItem(

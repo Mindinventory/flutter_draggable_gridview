@@ -1,4 +1,4 @@
-part of draggable_grid_view;
+part of '../flutter_draggable_gridview.dart';
 
 //ignore: must_be_immutable
 class PressDraggableGridView extends StatelessWidget {
@@ -14,7 +14,7 @@ class PressDraggableGridView extends StatelessWidget {
   List<DraggableGridItem> list;
 
   PressDraggableGridView(
-      {Key? key,
+      {super.key,
       required this.index,
       required this.onDragCancelled,
       this.feedback,
@@ -24,8 +24,7 @@ class PressDraggableGridView extends StatelessWidget {
       required this.dragEnded,
       required this.list,
       required this.onDragEnded,
-      required this.onDragStarted})
-      : super(key: key);
+      required this.onDragStarted});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,8 @@ class PressDraggableGridView extends StatelessWidget {
       },
       data: (index, list[index]),
       feedback: feedback ?? list[index].child,
-      childWhenDragging: childWhenDragging ?? draggedGridItem?.child ?? list[index].child,
+      childWhenDragging:
+          childWhenDragging ?? draggedGridItem?.child ?? list[index].child,
       child: list[index].child,
     );
   }
