@@ -1,4 +1,4 @@
-## [0.0.9] - 2024-03-06
+## [0.0.10] - 2024-03-08
 
 * Updated example and changes into library
 * Replaced deprecated methods with latest methods
