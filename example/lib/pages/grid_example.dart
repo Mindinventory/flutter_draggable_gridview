@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:example/constants/images.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_draggable_gridview/flutter_draggable_gridview.dart';
 
@@ -17,10 +18,12 @@ class GridExample extends StatefulWidget {
 
 class GridExampleState extends State<GridExample> {
   final List<DraggableGridItem> _listOfDraggableGridItem = [];
+  final List<DraggableGridItem> _listOfDraggableGridItem2 = [];
 
   @override
   void initState() {
-    _generateImageData();
+    _generateImageData1();
+    _generateImageData2();
     super.initState();
   }
 
@@ -29,20 +32,45 @@ class GridExampleState extends State<GridExample> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+        ),
       ),
       body: SafeArea(
-        child: DraggableGridViewBuilder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: MediaQuery.of(context).size.width /
-                (MediaQuery.of(context).size.height / 3),
-          ),
-          children: _listOfDraggableGridItem,
-          dragCompletion: onDragAccept,
-          isOnlyLongPress: false,
-          dragFeedback: feedback,
-          dragPlaceHolder: placeHolder,
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 3,
+              child: DraggableGridViewBuilder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      (MediaQuery.of(context).size.height / 3),
+                ),
+                children: _listOfDraggableGridItem,
+                dragCompletion: onDragAccept,
+                isOnlyLongPress: true,
+                dragFeedback: feedback,
+                dragPlaceHolder: placeHolder,
+              ),
+            ),
+            const SizedBox(height: 50),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 3,
+              child: DraggableGridViewBuilder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      (MediaQuery.of(context).size.height / 3),
+                ),
+                children: _listOfDraggableGridItem2,
+                dragCompletion: onDragAccept2,
+                isOnlyLongPress: true,
+                dragFeedback: feedback2,
+                dragPlaceHolder: placeHolder2,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -69,7 +97,28 @@ class GridExampleState extends State<GridExample> {
     log('onDragAccept: $beforeIndex -> $afterIndex');
   }
 
-  void _generateImageData() {
+  Widget feedback2(List<DraggableGridItem> list, int index) {
+    return SizedBox(
+      width: 200,
+      height: 150,
+      child: list[index].child,
+    );
+  }
+
+  PlaceHolderWidget placeHolder2(List<DraggableGridItem> list, int index) {
+    return PlaceHolderWidget(
+      child: Container(
+        color: Colors.green,
+      ),
+    );
+  }
+
+  void onDragAccept2(
+      List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
+    log('onDragAccept: $beforeIndex -> $afterIndex');
+  }
+
+  void _generateImageData1() {
     _listOfDraggableGridItem.addAll(
       [
         DraggableGridItem(
@@ -85,8 +134,13 @@ class GridExampleState extends State<GridExample> {
             child: const GridItem(image: Images.asset_3), isDraggable: true),
         DraggableGridItem(
             child: const GridItem(image: Images.asset_4), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_5), isDraggable: true),
+      ],
+    );
+  }
+
+  void _generateImageData2() {
+    _listOfDraggableGridItem2.addAll(
+      [
         DraggableGridItem(
             child: const GridItem(image: Images.asset_6), isDraggable: true),
         DraggableGridItem(

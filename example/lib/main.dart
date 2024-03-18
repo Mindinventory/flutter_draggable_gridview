@@ -1,9 +1,8 @@
+import 'package:example/constants/colors.dart';
+import 'package:example/constants/strings.dart';
 import 'package:example/pages/grid_example.dart';
 import 'package:example/pages/grid_with_scrollcontroller.dart';
 import 'package:flutter/material.dart';
-
-import 'constants/colors.dart';
-import 'constants/strings.dart';
 
 void main() {
   runApp(const MyApp());

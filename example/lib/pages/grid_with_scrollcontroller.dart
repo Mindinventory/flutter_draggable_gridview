@@ -43,6 +43,7 @@ class GridWithScrollControllerExampleState
       ),
       body: SafeArea(
         child: DraggableGridViewBuilder(
+          scrollDirection: Axis.vertical,
           controller: _scrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -97,7 +98,7 @@ class GridWithScrollControllerExampleState
         DraggableGridItem(
             child: const GridItem(image: Images.asset_4), isDraggable: true),
         DraggableGridItem(
-            child: const GridItem(image: Images.asset_5), isDraggable: true),
+            child: const GridItem(image: Images.asset_5), isDraggable: false),
         DraggableGridItem(
             child: const GridItem(image: Images.asset_6), isDraggable: true),
         DraggableGridItem(
