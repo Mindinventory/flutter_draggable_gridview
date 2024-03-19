@@ -37,8 +37,8 @@ class DragTargetGrid extends StatefulWidget {
 }
 
 class DragTargetGridState extends State<DragTargetGrid> {
-  List<DraggableGridItem>? _orgList;
-  List<DraggableGridItem>? _list;
+  late List<DraggableGridItem> _orgList;
+  late List<DraggableGridItem> _list;
   static bool _draggedIndexRemoved = false;
   static int _lastIndex = -1;
   static int _draggedIndex = -1;
@@ -53,7 +53,6 @@ class DragTargetGridState extends State<DragTargetGrid> {
   @override
   void didUpdateWidget(DragTargetGrid oldWidget) {
     _orgList = [...widget.orgList];
-
     super.didUpdateWidget(oldWidget);
   }
 
@@ -61,12 +60,11 @@ class DragTargetGridState extends State<DragTargetGrid> {
   Widget build(BuildContext context) {
     return DragTarget<(int, DraggableGridItem)>(
       /// When drag is completes and other item index is ready to accept it.
-      onAcceptWithDetails: (data) {
+      onAcceptWithDetails: (details) {
         setState(() {
           _onDragComplete(widget.index);
         });
       },
-      onLeave: (details) {},
 
       /// Drag is acceptable in this index else this place.
       onWillAcceptWithDetails: (details) {
@@ -89,14 +87,14 @@ class DragTargetGridState extends State<DragTargetGrid> {
         /// [_isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
         return (widget.isOnlyLongPress)
             ? LongPressDraggableGridView(
-                list: _list!,
+                list: _list,
                 index: widget.index,
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () => _onDragComplete(_lastIndex),
               )
             : PressDraggableGridView(
-                list: _list!,
+                list: _list,
                 index: widget.index,
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
@@ -125,7 +123,7 @@ class DragTargetGridState extends State<DragTargetGrid> {
     /// Here, check [_draggedIndex] is != -1.
     /// And also check index is not equal to _lastIndex. Means if both will true then skip it. else do some operations.
     if (_draggedIndex != -1 && index != _lastIndex) {
-      _list!.removeWhere((element) {
+      _list.removeWhere((element) {
         return (widget.placeHolder != null)
             ? element.child is PlaceHolderWidget
             : element.child is EmptyItem;
@@ -139,9 +137,9 @@ class DragTargetGridState extends State<DragTargetGrid> {
       /// For ex:
       /// If _draggedIndex is 6 and _lastIndex = 4 then _draggedChild will be 5.
       if (_draggedIndex > _lastIndex) {
-        _draggedGridItem = _orgList?[_draggedIndex - 1];
+        _draggedGridItem = _orgList[_draggedIndex - 1];
       } else {
-        _draggedGridItem = _orgList?[(_draggedIndex + 1 >= _list!.length)
+        _draggedGridItem = _orgList[(_draggedIndex + 1 >= _list.length)
             ? _draggedIndex
             : _draggedIndex + 1];
       }
@@ -154,9 +152,9 @@ class DragTargetGridState extends State<DragTargetGrid> {
 
       if (!_draggedIndexRemoved) {
         _draggedIndexRemoved = true;
-        _list?.removeAt(_draggedIndex);
+        _list.removeAt(_draggedIndex);
       }
-      _list?.insert(
+      _list.insert(
         _lastIndex,
         DraggableGridItem(
             child: widget.placeHolder ?? const EmptyItem(), isDraggable: true),
@@ -167,17 +165,17 @@ class DragTargetGridState extends State<DragTargetGrid> {
   /// This method will execute when dragging is completes or else dragging is cancelled.
   void _onDragComplete(int index) {
     if (_draggedIndex == -1) return;
-    _list?.removeAt(index);
-    _list?.insert(index, _orgList![_draggedIndex]);
+    _list.removeAt(index);
+    _list.insert(index, _orgList[_draggedIndex]);
 
-    _orgList = _list!.toList();
+    _orgList = _list.toList();
     _dragStarted = false;
 
-    widget.onListUpdate.call(_list!);
-    widget.onOrgListUpdate.call(_orgList!);
+    widget.onListUpdate.call(_list);
+    widget.onOrgListUpdate.call(_orgList);
     widget.onChangeCallback?.call();
 
-    widget.dragCompletion?.call(_orgList!, _draggedIndex, _lastIndex);
+    widget.dragCompletion?.call(_orgList, _draggedIndex, _lastIndex);
 
     _draggedIndex = -1;
     _lastIndex = -1;
