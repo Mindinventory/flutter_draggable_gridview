@@ -29,7 +29,9 @@ class GridExampleState extends State<GridExample> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+        ),
       ),
       body: SafeArea(
         child: DraggableGridViewBuilder(
@@ -40,7 +42,7 @@ class GridExampleState extends State<GridExample> {
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
-          isOnlyLongPress: false,
+          isOnlyLongPress: true,
           dragFeedback: feedback,
           dragPlaceHolder: placeHolder,
         ),
@@ -86,7 +88,7 @@ class GridExampleState extends State<GridExample> {
         DraggableGridItem(
             child: const GridItem(image: Images.asset_4), isDraggable: true),
         DraggableGridItem(
-            child: const GridItem(image: Images.asset_5), isDraggable: true),
+            child: const GridItem(image: Images.asset_5), isDraggable: false),
         DraggableGridItem(
             child: const GridItem(image: Images.asset_6), isDraggable: true),
         DraggableGridItem(

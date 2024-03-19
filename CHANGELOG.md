@@ -1,3 +1,8 @@
+## [0.0.11] - 2024-04-19
+
+* Fixed known issues [#21]
+* Minor improvements
+
 ## [0.0.10] - 2024-03-08
 
 * Updated example and changes into library
