@@ -52,6 +52,7 @@ class DragTargetGridState extends State<DragTargetGrid> {
 
   @override
   void didUpdateWidget(DragTargetGrid oldWidget) {
+    _list = [...widget.list];
     _orgList = [...widget.orgList];
     super.didUpdateWidget(oldWidget);
   }
