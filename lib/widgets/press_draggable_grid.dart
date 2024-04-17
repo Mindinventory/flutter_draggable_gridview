@@ -6,15 +6,12 @@ class PressDraggableGridView extends StatelessWidget {
   final Widget? childWhenDragging;
   final VoidCallback onDragCancelled;
 
-  final List<DraggableGridItem> list;
-
   const PressDraggableGridView({
     super.key,
     required this.index,
     required this.onDragCancelled,
     this.feedback,
     this.childWhenDragging,
-    required this.list,
   });
 
   @override
@@ -31,11 +28,11 @@ class PressDraggableGridView extends StatelessWidget {
         _dragEnded = true;
         _dragStarted = false;
       },
-      data: (index, list[index]),
-      feedback: feedback ?? list[index].child,
+      data: (index, _list[index]),
+      feedback: feedback ?? _list[index].child,
       childWhenDragging:
-          childWhenDragging ?? _draggedGridItem?.child ?? list[index].child,
-      child: list[index].child,
+          childWhenDragging ?? _draggedGridItem?.child ?? _list[index].child,
+      child: _list[index].child,
     );
   }
 }

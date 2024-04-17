@@ -99,12 +99,6 @@ class DraggableGridViewBuilder extends StatefulWidget {
 }
 
 class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
-  late List<DraggableGridItem> _orgList;
-  late List<DraggableGridItem> _list;
-
-  /// [isOnlyLongPress] is Accepts 'true' and 'false'
-  /// If, it is true then only draggable works with long press.
-  /// and if it is false then it works with simple press.
 
   @override
   void initState() {
@@ -139,9 +133,6 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
             return (!_list[index].isDraggable)
                 ? _list[index].child
                 : DragTargetGrid(
-                    isOnlyLongPress: _isOnlyLongPress,
-                    list: _list,
-                    orgList: _orgList,
                     index: index,
                     onChangeCallback: () => setState(() {}),
                     feedback: widget.dragFeedback?.call(_list, index),
@@ -179,9 +170,6 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
         return (!_list[index].isDraggable)
             ? _list[index].child
             : DragTargetGrid(
-                isOnlyLongPress: _isOnlyLongPress,
-                list: _list,
-                orgList: _orgList,
                 index: index,
                 onChangeCallback: () => setState(() {}),
                 feedback: widget.dragFeedback?.call(_list, index),

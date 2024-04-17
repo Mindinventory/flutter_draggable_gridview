@@ -9,13 +9,6 @@ class DragTargetGrid extends StatefulWidget {
   final DragCompletion? dragCompletion;
   final ValueChanged<List<DraggableGridItem>> onListUpdate;
   final ValueChanged<List<DraggableGridItem>> onOrgListUpdate;
-  final List<DraggableGridItem> orgList;
-  final List<DraggableGridItem> list;
-
-  /// [isOnlyLongPress] is Accepts 'true' and 'false'
-  /// If, it is true then only draggable works with long press.
-  /// and if it is false then it works with simple press.
-  final bool isOnlyLongPress;
 
   const DragTargetGrid({
     super.key,
@@ -25,9 +18,6 @@ class DragTargetGrid extends StatefulWidget {
     this.childWhenDragging,
     this.placeHolder,
     required this.dragCompletion,
-    required this.orgList,
-    required this.list,
-    required this.isOnlyLongPress,
     required this.onListUpdate,
     required this.onOrgListUpdate,
   });
@@ -37,24 +27,9 @@ class DragTargetGrid extends StatefulWidget {
 }
 
 class DragTargetGridState extends State<DragTargetGrid> {
-  late List<DraggableGridItem> _orgList;
-  late List<DraggableGridItem> _list;
   static bool _draggedIndexRemoved = false;
   static int _lastIndex = -1;
   static int _draggedIndex = -1;
-
-  @override
-  void initState() {
-    _list = widget.list;
-    _orgList = widget.orgList;
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(DragTargetGrid oldWidget) {
-    _orgList = [...widget.orgList];
-    super.didUpdateWidget(oldWidget);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +43,11 @@ class DragTargetGridState extends State<DragTargetGrid> {
 
       /// Drag is acceptable in this index else this place.
       onWillAcceptWithDetails: (details) {
-        return widget.orgList.contains(details.data.$2);
+        return _orgList.contains(details.data.$2);
       },
       onMove: (details) {
-        if (widget.orgList.contains(details.data.$2)) {
-          widget.orgList[widget.index].dragCallback?.call(context, true);
+        if (_orgList.contains(details.data.$2)) {
+          _orgList[widget.index].dragCallback?.call(context, true);
 
           /// Update state when item is moving.
           setState(() {
@@ -85,16 +60,14 @@ class DragTargetGridState extends State<DragTargetGrid> {
       builder: (BuildContext context, List<dynamic> accepted,
           List<dynamic> rejected) {
         /// [_isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
-        return (widget.isOnlyLongPress)
+        return (_isOnlyLongPress)
             ? LongPressDraggableGridView(
-                list: _list,
                 index: widget.index,
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () => _onDragComplete(_lastIndex),
               )
             : PressDraggableGridView(
-                list: _list,
                 index: widget.index,
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
