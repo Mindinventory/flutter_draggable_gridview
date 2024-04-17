@@ -41,6 +41,21 @@ class GridWithScrollControllerExampleState
         centerTitle: true,
         title: Text(widget.title),
       ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            if (_listOfDraggableGridItem.length > 1) {
+              _listOfDraggableGridItem.removeAt(0);
+            } else {
+              log('Children must not be empty.');
+            }
+          });
+        },
+        child: const Icon(
+          Icons.delete,
+          size: 48,
+        ),
+      ),
       body: SafeArea(
         child: DraggableGridViewBuilder(
           scrollDirection: Axis.vertical,
@@ -79,6 +94,11 @@ class GridWithScrollControllerExampleState
   void onDragAccept(
       List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
     log('onDragAccept: $beforeIndex -> $afterIndex');
+    // optional: update data source if you need after drag complete.
+    setState(() {
+      _listOfDraggableGridItem.clear();
+      _listOfDraggableGridItem.addAll(list);
+    });
   }
 
   void _generateImageData() {
