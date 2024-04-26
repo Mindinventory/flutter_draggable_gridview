@@ -1,3 +1,7 @@
+## [0.0.12] - 2024-04-23
+
+* Fixed known issue [#27](https://github.com/Mindinventory/flutter_draggable_gridview/issues/27)
+
 ## [0.0.11] - 2024-04-19
 
 * Fixed known issues [#21]
