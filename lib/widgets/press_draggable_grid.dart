@@ -47,7 +47,8 @@ class PressDraggableGridView extends StatelessWidget {
       },
       data: (index, list[index]),
       feedback: feedback ?? list[index].child,
-      childWhenDragging: childWhenDragging ?? draggedGridItem?.child ?? list[index].child,
+      childWhenDragging:
+          childWhenDragging ?? draggedGridItem?.child ?? list[index].child,
       child: list[index].child,
     );
   }
