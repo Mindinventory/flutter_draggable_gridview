@@ -39,22 +39,19 @@ class LongPressDraggableGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return LongPressDraggable<(int, DraggableGridItem)>(
       onDraggableCanceled: (_, __) => onDragCancelled(),
-      onDragCompleted: () {
-        log('');
-      },
       onDragStarted: () {
         if (dragEnded) {
           dragStarted = true;
           dragEnded = false;
-          onDragStarted.call(true);
           onDragEnded.call(false);
+          onDragStarted.call(true);
         }
       },
       onDragEnd: (details) {
         dragEnded = true;
         dragStarted = false;
-        onDragStarted.call(false);
         onDragEnded.call(true);
+        onDragStarted.call(false);
       },
       data: (index, list[index]),
       feedback: feedback ?? list[index].child,
