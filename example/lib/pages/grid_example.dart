@@ -40,7 +40,7 @@ class GridExampleState extends State<GridExample> {
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
-          isOnlyLongPress: false,
+          isOnlyLongPress: true,
           dragFeedback: feedback,
           dragPlaceHolder: placeHolder,
         ),
