@@ -88,8 +88,8 @@ class DragTargetGridState extends State<DragTargetGrid> {
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () => _onDragComplete(_lastIndex),
-                dragEnded: _dragStarted,
                 dragStarted: _dragStarted,
+                dragEnded: _dragEnded,
                 onDragEnded: (bool data) {
                   _dragEnded = data;
                   setState(() {});
