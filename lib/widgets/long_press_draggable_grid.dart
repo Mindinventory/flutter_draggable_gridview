@@ -2,24 +2,16 @@ part of draggable_grid_view;
 
 //ignore: must_be_immutable
 class LongPressDraggableGridView extends StatelessWidget {
-  /// [index] is use to get item from the list.
   final int index;
-
-  /// [feedback] this to display the widget when the widget is being dragged.
   final Widget? feedback;
-
-  /// [DragChildWhenDragging] this to display the widget at dragged widget place when the widget is being dragged.
   final Widget? childWhenDragging;
-  List<DraggableGridItem> list;
-
   final VoidCallback onDragCancelled;
-  bool dragStarted;
-  bool dragEnded;
-
-  Function(bool) onDragStarted;
-  Function(bool) onDragEnded;
-
+  var dragStarted = false;
+  final Function(bool) onDragStarted;
+  final Function(bool) onDragEnded;
+  var dragEnded = true;
   DraggableGridItem? draggedGridItem;
+  List<DraggableGridItem> list;
 
   LongPressDraggableGridView({
     required this.dragEnded,
@@ -39,9 +31,6 @@ class LongPressDraggableGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     return LongPressDraggable<(int, DraggableGridItem)>(
       onDraggableCanceled: (_, __) => onDragCancelled(),
-      onDragCompleted: () {
-        log('');
-      },
       onDragStarted: () {
         if (dragEnded) {
           dragStarted = true;
