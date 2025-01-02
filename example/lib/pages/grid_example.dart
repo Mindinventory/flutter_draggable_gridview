@@ -45,7 +45,7 @@ class GridExampleState extends State<GridExample> {
         },
         child: const Icon(
           Icons.delete,
-          size: 48,
+          size: 24,
         ),
       ),
       body: SafeArea(
