@@ -52,7 +52,9 @@ class DragTargetGridState extends State<DragTargetGrid> {
 
   @override
   void didUpdateWidget(DragTargetGrid oldWidget) {
-    _list = [...widget.list];
+    // Removing this code from PR [#28](https://github.com/Mindinventory/flutter_draggable_gridview/pull/28)
+    // because its causes an issue with the list data updates while dragging
+    // _list = [...widget.list];
     _orgList = [...widget.orgList];
     super.didUpdateWidget(oldWidget);
   }
