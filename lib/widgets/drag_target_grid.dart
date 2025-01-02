@@ -16,6 +16,7 @@ class DragTargetGrid extends StatefulWidget {
   /// If, it is true then only draggable works with long press.
   /// and if it is false then it works with simple press.
   final bool isOnlyLongPress;
+  final VoidCallback? dragStarted;
 
   const DragTargetGrid({
     super.key,
@@ -30,6 +31,7 @@ class DragTargetGrid extends StatefulWidget {
     required this.isOnlyLongPress,
     required this.onListUpdate,
     required this.onOrgListUpdate,
+    this.dragStarted,
   });
 
   @override
@@ -95,6 +97,7 @@ class DragTargetGridState extends State<DragTargetGrid> {
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () => _onDragComplete(_lastIndex),
+                onDragStarted: widget.dragStarted,
               )
             : PressDraggableGridView(
                 list: _list,
@@ -102,6 +105,7 @@ class DragTargetGridState extends State<DragTargetGrid> {
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () => _onDragComplete(_lastIndex),
+                onDragStarted: widget.dragStarted,
               );
       },
     );

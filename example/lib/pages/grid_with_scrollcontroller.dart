@@ -67,6 +67,9 @@ class GridWithScrollControllerExampleState
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
+          dragStarted: () {
+            log('dragStarted...');
+          },
           isOnlyLongPress: false,
           dragFeedback: feedback,
           dragPlaceHolder: placeHolder,

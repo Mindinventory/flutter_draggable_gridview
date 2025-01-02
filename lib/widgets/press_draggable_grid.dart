@@ -7,6 +7,7 @@ class PressDraggableGridView extends StatelessWidget {
   final VoidCallback onDragCancelled;
 
   final List<DraggableGridItem> list;
+  final VoidCallback? onDragStarted;
 
   const PressDraggableGridView({
     super.key,
@@ -15,6 +16,7 @@ class PressDraggableGridView extends StatelessWidget {
     this.feedback,
     this.childWhenDragging,
     required this.list,
+    this.onDragStarted,
   });
 
   @override
@@ -26,6 +28,7 @@ class PressDraggableGridView extends StatelessWidget {
           _dragStarted = true;
           _dragEnded = false;
         }
+        onDragStarted?.call();
       },
       onDragEnd: (details) {
         _dragEnded = true;

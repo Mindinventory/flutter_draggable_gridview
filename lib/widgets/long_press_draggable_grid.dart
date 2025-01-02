@@ -13,14 +13,17 @@ class LongPressDraggableGridView extends StatelessWidget {
   final VoidCallback onDragCancelled;
 
   final List<DraggableGridItem> list;
+  final VoidCallback? onDragStarted;
 
-  const LongPressDraggableGridView(
-      {required this.index,
-      required this.onDragCancelled,
-      this.feedback,
-      this.childWhenDragging,
-      super.key,
-      required this.list});
+  const LongPressDraggableGridView({
+    required this.index,
+    required this.onDragCancelled,
+    this.feedback,
+    this.childWhenDragging,
+    super.key,
+    required this.list,
+    this.onDragStarted,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class LongPressDraggableGridView extends StatelessWidget {
           _dragStarted = true;
           _dragEnded = false;
         }
+        onDragStarted?.call();
       },
       onDragEnd: (details) {
         _dragEnded = true;

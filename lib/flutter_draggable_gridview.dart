@@ -18,10 +18,13 @@ part 'widgets/placeholder_widget.dart';
 
 part 'widgets/press_draggable_grid.dart';
 
-typedef DragCompletion = void Function(List<DraggableGridItem> list, int beforeIndex, int afterIndex);
+typedef DragCompletion = void Function(
+    List<DraggableGridItem> list, int beforeIndex, int afterIndex);
 typedef DragFeedback = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragChildWhenDragging = Widget Function(List<DraggableGridItem> list, int index);
-typedef DragPlaceHolder = PlaceHolderWidget Function(List<DraggableGridItem> list, int index);
+typedef DragChildWhenDragging = Widget Function(
+    List<DraggableGridItem> list, int index);
+typedef DragPlaceHolder = PlaceHolderWidget Function(
+    List<DraggableGridItem> list, int index);
 
 class DraggableGridViewBuilder extends StatefulWidget {
   /// [children] will show the widgets in Gridview.builder.
@@ -41,6 +44,9 @@ class DraggableGridViewBuilder extends StatefulWidget {
 
   /// [dragCompletion] you have to set this callback to get the updated list.
   final DragCompletion dragCompletion;
+
+  /// [dragStarted] called when the draggable starts being dragged.
+  final VoidCallback? dragStarted;
 
   /// all the below variables for Gridview.builder.
   final Axis scrollDirection;
@@ -88,10 +94,12 @@ class DraggableGridViewBuilder extends StatefulWidget {
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.sliverMode = false,
+    this.dragStarted,
   });
 
   @override
-  DraggableGridViewBuilderState createState() => DraggableGridViewBuilderState();
+  DraggableGridViewBuilderState createState() =>
+      DraggableGridViewBuilderState();
 }
 
 class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
@@ -142,9 +150,11 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
                     index: index,
                     onChangeCallback: () => setState(() {}),
                     feedback: widget.dragFeedback?.call(_list, index),
-                    childWhenDragging: widget.dragChildWhenDragging?.call(_orgList, index),
+                    childWhenDragging:
+                        widget.dragChildWhenDragging?.call(_orgList, index),
                     placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
                     dragCompletion: widget.dragCompletion,
+                    dragStarted: widget.dragStarted,
                     onListUpdate: (List<DraggableGridItem> value) {
                       _list = value;
                     },
@@ -182,9 +192,11 @@ class DraggableGridViewBuilderState extends State<DraggableGridViewBuilder> {
                 index: index,
                 onChangeCallback: () => setState(() {}),
                 feedback: widget.dragFeedback?.call(_list, index),
-                childWhenDragging: widget.dragChildWhenDragging?.call(_orgList, index),
+                childWhenDragging:
+                    widget.dragChildWhenDragging?.call(_orgList, index),
                 placeHolder: widget.dragPlaceHolder?.call(_orgList, index),
                 dragCompletion: widget.dragCompletion,
+                dragStarted: widget.dragStarted,
                 onListUpdate: (List<DraggableGridItem> value) {
                   _list = value;
                 },

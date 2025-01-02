@@ -57,6 +57,9 @@ class GridExampleState extends State<GridExample> {
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
+          dragStarted: () {
+            log('dragStarted...');
+          },
           isOnlyLongPress: true,
           dragFeedback: feedback,
           dragPlaceHolder: placeHolder,
