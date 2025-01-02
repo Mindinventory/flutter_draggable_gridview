@@ -1,4 +1,4 @@
-part of draggable_grid_view;
+part of '../flutter_draggable_gridview.dart';
 
 /// This class helps to manage widget and dragging enable/disable.
 /// [child] will show the widgets in Gridview.builder.
@@ -8,11 +8,11 @@ class DraggableGridItem {
     required this.child,
     this.isDraggable = false,
     this.dragCallback,
-    this.index = 0,
+    this.index,
   });
 
-  final int index;
-  final bool isDraggable;
   final Widget child;
+  final bool isDraggable;
   final Function(BuildContext context, bool isDragging)? dragCallback;
+  final int? index;
 }

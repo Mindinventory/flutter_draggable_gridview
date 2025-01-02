@@ -43,6 +43,7 @@ class GridWithScrollControllerExampleState
       ),
       body: SafeArea(
         child: DraggableGridViewBuilder(
+          scrollDirection: Axis.vertical,
           controller: _scrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,

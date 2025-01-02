@@ -1,9 +1,8 @@
+import 'package:example/constants/colors.dart';
+import 'package:example/constants/strings.dart';
 import 'package:example/pages/grid_example.dart';
 import 'package:example/pages/grid_with_scrollcontroller.dart';
 import 'package:flutter/material.dart';
-
-import 'constants/colors.dart';
-import 'constants/strings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,7 +44,9 @@ class MyHomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const GridExample(title: 'Grid Example')),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const GridExample(title: 'Grid Example')),
                   );
                 },
                 child: const Text('Grid Example'),
@@ -56,7 +57,9 @@ class MyHomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const GridWithScrollControllerExample(title: 'Grid + ScrollController'),
+                      builder: (context) =>
+                          const GridWithScrollControllerExample(
+                              title: 'Grid + ScrollController'),
                     ),
                   );
                 },

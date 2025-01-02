@@ -1,3 +1,17 @@
+## [0.0.12] - 2024-04-23
+
+* Fixed known issue [#27](https://github.com/Mindinventory/flutter_draggable_gridview/issues/27)
+
+## [0.0.11] - 2024-04-19
+
+* Fixed known issues [#21]
+* Minor improvements
+
+## [0.0.10] - 2024-03-08
+
+* Updated example and changes into library
+* Replaced deprecated methods with latest methods
+
 ## [0.0.9] - 2023-12-05
 
 * Resolved github issue [#20]
@@ -10,7 +24,7 @@
 
 ## [0.0.7] - 2022-07-13
 
-* Added dragged listener to the DraggableGridItem. 
+* Added dragged listener to the DraggableGridItem.
 * Updated example with scroll controller.
 
 ## [0.0.6] - 2022-06-23

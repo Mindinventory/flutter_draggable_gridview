@@ -29,7 +29,9 @@ class GridExampleState extends State<GridExample> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+        ),
       ),
       body: SafeArea(
         child: DraggableGridViewBuilder(
