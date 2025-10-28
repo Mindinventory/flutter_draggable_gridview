@@ -1,4 +1,4 @@
-part of draggable_grid_view;
+part of '../flutter_draggable_gridview.dart';
 
 class DragTargetGrid extends StatefulWidget {
   final int index;
@@ -7,73 +7,117 @@ class DragTargetGrid extends StatefulWidget {
   final Widget? childWhenDragging;
   final PlaceHolderWidget? placeHolder;
   final DragCompletion? dragCompletion;
+  final ValueChanged<List<DraggableGridItem>> onListUpdate;
+  final ValueChanged<List<DraggableGridItem>> onOrgListUpdate;
+  final List<DraggableGridItem> orgList;
+  final List<DraggableGridItem> list;
+
+  /// [isOnlyLongPress] is Accepts 'true' and 'false'
+  /// If, it is true then only draggable works with long press.
+  /// and if it is false then it works with simple press.
+  final bool isOnlyLongPress;
+  final VoidCallback? dragStarted;
 
   const DragTargetGrid({
-    Key? key,
+    super.key,
     required this.index,
     required this.onChangeCallback,
     this.feedback,
     this.childWhenDragging,
     this.placeHolder,
     required this.dragCompletion,
-  }) : super(key: key);
+    required this.orgList,
+    required this.list,
+    required this.isOnlyLongPress,
+    required this.onListUpdate,
+    required this.onOrgListUpdate,
+    this.dragStarted,
+  });
 
   @override
   DragTargetGridState createState() => DragTargetGridState();
 }
 
 class DragTargetGridState extends State<DragTargetGrid> {
+  late List<DraggableGridItem> _orgList;
+  late List<DraggableGridItem> _list;
   static bool _draggedIndexRemoved = false;
   static int _lastIndex = -1;
   static int _draggedIndex = -1;
 
   @override
+  void initState() {
+    _list = widget.list;
+    _orgList = widget.orgList;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(DragTargetGrid oldWidget) {
+    // Removing this code from PR [#28](https://github.com/Mindinventory/flutter_draggable_gridview/pull/28)
+    // because its causes an issue with the list data updates while dragging
+    // _list = [...widget.list];
+    _orgList = [...widget.orgList];
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DragTarget(
+    return DragTarget<(int, DraggableGridItem)>(
       /// When drag is completes and other item index is ready to accept it.
-      onAccept: (data) => setState(() {
-        _onDragComplete(widget.index);
-      }),
-      onLeave: (details) {},
+      onAcceptWithDetails: (details) {
+        setState(() {
+          _onDragComplete(widget.index);
+        });
+      },
 
       /// Drag is acceptable in this index else this place.
-      onWillAccept: (details) => true,
+      onWillAcceptWithDetails: (details) {
+        return widget.orgList.contains(details.data.$2);
+      },
       onMove: (details) {
-        _list[widget.index].dragCallback?.call(context, true);
+        if (widget.orgList.contains(details.data.$2)) {
+          widget.orgList[widget.index].dragCallback?.call(context, true);
 
-        /// Update state when item is moving.
-        setState(() {
-          _setDragStartedData(details, widget.index);
-          _checkIndexesAreDifferent(details, widget.index);
-          widget.onChangeCallback?.call();
-        });
+          /// Update state when item is moving.
+          setState(() {
+            _setDragStartedData(details, widget.index);
+            _checkIndexesAreDifferent(details, widget.index);
+            widget.onChangeCallback?.call();
+          });
+        }
       },
       builder: (BuildContext context, List<dynamic> accepted,
           List<dynamic> rejected) {
         /// [_isOnlyLongPress] is true then set the 'LongPressDraggableGridView' class or else set 'PressDraggableGridView' class.
-        return (_isOnlyLongPress)
+        return (widget.isOnlyLongPress)
             ? LongPressDraggableGridView(
+                list: _list,
                 index: widget.index,
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () => _onDragComplete(_lastIndex),
+                onDragStarted: widget.dragStarted,
               )
             : PressDraggableGridView(
+                list: _list,
                 index: widget.index,
                 feedback: widget.feedback,
                 childWhenDragging: widget.childWhenDragging,
                 onDragCancelled: () => _onDragComplete(_lastIndex),
+                onDragStarted: widget.dragStarted,
               );
       },
     );
   }
 
   /// Set drag data when dragging start.
-  void _setDragStartedData(DragTargetDetails details, int index) {
+  void _setDragStartedData(
+      DragTargetDetails<(int, DraggableGridItem)> details, int index) {
     if (_dragStarted) {
       _dragStarted = false;
       _draggedIndexRemoved = false;
-      _draggedIndex = details.data;
+      _draggedIndex = details.data.$1;
       _draggedGridItem = DraggableGridItem(
           child: widget.placeHolder ?? const EmptyItem(), isDraggable: true);
       _lastIndex = _draggedIndex;
@@ -81,7 +125,8 @@ class DragTargetGridState extends State<DragTargetGrid> {
   }
 
   /// When [_draggedIndex] and [_lastIndex] both are different that means item is dragged and travelling to other place.
-  void _checkIndexesAreDifferent(DragTargetDetails details, int index) {
+  void _checkIndexesAreDifferent(
+      DragTargetDetails<(int, DraggableGridItem)> details, int index) {
     /// Here, check [_draggedIndex] is != -1.
     /// And also check index is not equal to _lastIndex. Means if both will true then skip it. else do some operations.
     if (_draggedIndex != -1 && index != _lastIndex) {
@@ -129,12 +174,16 @@ class DragTargetGridState extends State<DragTargetGrid> {
     if (_draggedIndex == -1) return;
     _list.removeAt(index);
     _list.insert(index, _orgList[_draggedIndex]);
-    _orgList = [..._list];
+
+    _orgList = _list.toList();
     _dragStarted = false;
 
+    widget.onListUpdate.call(_list);
+    widget.onOrgListUpdate.call(_orgList);
     widget.onChangeCallback?.call();
-    _list[index].dragCallback?.call(context, false);
+
     widget.dragCompletion?.call(_orgList, _draggedIndex, _lastIndex);
+
     _draggedIndex = -1;
     _lastIndex = -1;
     _draggedGridItem = null;

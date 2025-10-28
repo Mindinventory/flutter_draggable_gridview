@@ -41,8 +41,24 @@ class GridWithScrollControllerExampleState
         centerTitle: true,
         title: Text(widget.title),
       ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            if (_listOfDraggableGridItem.length > 1) {
+              _listOfDraggableGridItem.removeAt(0);
+            } else {
+              log('Children must not be empty.');
+            }
+          });
+        },
+        child: const Icon(
+          Icons.delete,
+          size: 24,
+        ),
+      ),
       body: SafeArea(
         child: DraggableGridViewBuilder(
+          scrollDirection: Axis.vertical,
           controller: _scrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -51,7 +67,10 @@ class GridWithScrollControllerExampleState
           ),
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
-          isOnlyLongPress: true,
+          dragStarted: () {
+            log('dragStarted...');
+          },
+          isOnlyLongPress: false,
           dragFeedback: feedback,
           dragPlaceHolder: placeHolder,
         ),
@@ -78,6 +97,10 @@ class GridWithScrollControllerExampleState
   void onDragAccept(
       List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
     log('onDragAccept: $beforeIndex -> $afterIndex');
+    setState(() {
+      _listOfDraggableGridItem.clear();
+      _listOfDraggableGridItem.addAll(list);
+    });
   }
 
   void _generateImageData() {

@@ -1,4 +1,4 @@
-part of draggable_grid_view;
+part of '../flutter_draggable_gridview.dart';
 
 class LongPressDraggableGridView extends StatelessWidget {
   /// [index] is use to get item from the list.
@@ -12,36 +12,39 @@ class LongPressDraggableGridView extends StatelessWidget {
 
   final VoidCallback onDragCancelled;
 
+  final List<DraggableGridItem> list;
+  final VoidCallback? onDragStarted;
+
   const LongPressDraggableGridView({
     required this.index,
     required this.onDragCancelled,
     this.feedback,
     this.childWhenDragging,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.list,
+    this.onDragStarted,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return LongPressDraggable(
+    return LongPressDraggable<(int, DraggableGridItem)>(
       onDraggableCanceled: (_, __) => onDragCancelled(),
-      onDragCompleted: () {
-        log('');
-      },
       onDragStarted: () {
         if (_dragEnded) {
           _dragStarted = true;
           _dragEnded = false;
         }
+        onDragStarted?.call();
       },
       onDragEnd: (details) {
         _dragEnded = true;
         _dragStarted = false;
       },
-      data: index,
-      feedback: feedback ?? _list[index].child,
+      data: (index, list[index]),
+      feedback: feedback ?? list[index].child,
       childWhenDragging:
-          childWhenDragging ?? _draggedGridItem?.child ?? _list[index].child,
-      child: _list[index].child,
+          childWhenDragging ?? _draggedGridItem?.child ?? list[index].child,
+      child: list[index].child,
     );
   }
 }

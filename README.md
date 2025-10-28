@@ -1,6 +1,6 @@
 # flutter_draggable_gridview
 
-<a href="https://pub.dev/packages/image_cropping">
+<a href="https://pub.dev/packages/flutter_draggable_gridview">
 <img src="https://img.shields.io/pub/v/flutter_draggable_gridview?label=flutter_draggable_gridview" alt="flutter_draggable_gridview version">
 </a>
 <a href="https://github.com/Mindinventory/flutter_draggable_gridview/stargazers">
@@ -30,7 +30,7 @@ This package supports drag & drop widgets inside the GridView.builder for multip
 
 
 ### Draggable GridView.
-![Draggable GridView](https://github.com/Mindinventory/flutter_draggable_gridview/blob/main/assets/draggable_gridview.gif)
+![Draggable GridView](https://github.com/Mindinventory/flutter_draggable_gridview/raw/main/assets/draggable_gridview.gif)
 
 
 ## Usage
