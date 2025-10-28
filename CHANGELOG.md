@@ -1,3 +1,8 @@
+## 0.0.14
+
+* Added scroll controller in the example to resolve the issue [#34](https://github.com/Mindinventory/flutter_draggable_gridview/issues/34)
+* Minor improvements
+
 ## 0.0.13
 
 * Fixed known issue [#35](https://github.com/Mindinventory/flutter_draggable_gridview/issues/35)

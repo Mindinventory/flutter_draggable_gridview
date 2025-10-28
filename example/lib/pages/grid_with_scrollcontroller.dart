@@ -25,6 +25,9 @@ class GridWithScrollControllerExampleState
     keepScrollOffset: true,
   );
 
+  // keep scroll offset manually
+  double _savedOffset = 0.0;
+
   @override
   void initState() {
     _generateImageData();
@@ -68,6 +71,10 @@ class GridWithScrollControllerExampleState
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
           dragStarted: () {
+            // Save current offset before drag starts
+            if (_scrollController.hasClients) {
+              _savedOffset = _scrollController.offset;
+            }
             log('dragStarted...');
           },
           isOnlyLongPress: false,
@@ -100,6 +107,19 @@ class GridWithScrollControllerExampleState
     setState(() {
       _listOfDraggableGridItem.clear();
       _listOfDraggableGridItem.addAll(list);
+    });
+
+    // Restore the previous scroll offset manually
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        final maxExtent = _scrollController.position.maxScrollExtent;
+        final offset = _savedOffset.clamp(0.0, maxExtent);
+        _scrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
+      }
     });
   }
 

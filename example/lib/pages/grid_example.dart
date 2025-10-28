@@ -1,9 +1,7 @@
 import 'dart:developer';
-
 import 'package:example/constants/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_draggable_gridview/flutter_draggable_gridview.dart';
-
 import '../widgets/grid_item_widget.dart';
 
 class GridExample extends StatefulWidget {
@@ -17,6 +15,10 @@ class GridExample extends StatefulWidget {
 
 class GridExampleState extends State<GridExample> {
   final List<DraggableGridItem> _listOfDraggableGridItem = [];
+  final ScrollController _scrollController = ScrollController();
+
+  // keep scroll offset manually
+  double _savedOffset = 0.0;
 
   @override
   void initState() {
@@ -41,13 +43,11 @@ class GridExampleState extends State<GridExample> {
             }
           });
         },
-        child: const Icon(
-          Icons.delete,
-          size: 24,
-        ),
+        child: const Icon(Icons.delete, size: 24),
       ),
       body: SafeArea(
         child: DraggableGridViewBuilder(
+          controller: _scrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: MediaQuery.of(context).size.width /
@@ -56,6 +56,10 @@ class GridExampleState extends State<GridExample> {
           children: _listOfDraggableGridItem,
           dragCompletion: onDragAccept,
           dragStarted: () {
+            // Save current offset before drag starts
+            if (_scrollController.hasClients) {
+              _savedOffset = _scrollController.offset;
+            }
             log('dragStarted...');
           },
           isOnlyLongPress: true,
@@ -76,9 +80,7 @@ class GridExampleState extends State<GridExample> {
 
   PlaceHolderWidget placeHolder(List<DraggableGridItem> list, int index) {
     return PlaceHolderWidget(
-      child: Container(
-        color: Colors.white,
-      ),
+      child: Container(color: Colors.white),
     );
   }
 
@@ -86,46 +88,46 @@ class GridExampleState extends State<GridExample> {
       List<DraggableGridItem> list, int beforeIndex, int afterIndex) {
     log('onDragAccept: $beforeIndex -> $afterIndex');
     setState(() {
-      _listOfDraggableGridItem.clear();
-      _listOfDraggableGridItem.addAll(list);
+      _listOfDraggableGridItem
+        ..clear()
+        ..addAll(list);
+    });
+
+    // Restore the previous scroll offset manually
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        final maxExtent = _scrollController.position.maxScrollExtent;
+        final offset = _savedOffset.clamp(0.0, maxExtent);
+        _scrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+        );
+      }
     });
   }
 
   void _generateImageData() {
-    _listOfDraggableGridItem.addAll(
-      [
-        DraggableGridItem(
-          child: const GridItem(image: Images.asset_1),
-          isDraggable: true,
-          dragCallback: (context, isDragging) {
-            log('isDragging: $isDragging');
-          },
-        ),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_2), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_3), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_4), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_5), isDraggable: false),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_6), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_7), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_8), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_9), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_10), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_11), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_12), isDraggable: true),
-        DraggableGridItem(
-            child: const GridItem(image: Images.asset_13), isDraggable: true),
-      ],
-    );
+    _listOfDraggableGridItem.addAll([
+      DraggableGridItem(
+        child: const GridItem(image: Images.asset_1),
+        isDraggable: true,
+        dragCallback: (context, isDragging) {
+          log('isDragging: $isDragging');
+        },
+      ),
+      DraggableGridItem(child: const GridItem(image: Images.asset_2), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_3), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_4), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_5), isDraggable: false),
+      DraggableGridItem(child: const GridItem(image: Images.asset_6), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_7), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_8), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_9), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_10), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_11), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_12), isDraggable: true),
+      DraggableGridItem(child: const GridItem(image: Images.asset_13), isDraggable: true),
+    ]);
   }
 }
